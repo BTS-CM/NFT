@@ -9,6 +9,7 @@ import 'fontsource-roboto';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 
 import NFT from "./NFT";
 const art = require("./art.json");
@@ -41,11 +42,10 @@ function Gallery() {
     initialize()
   }, []);
 
-  // nfts && nfts.length ? <NFT data={nfts[0]} /> : 'nah'
   const classes = useStyles();
 
   return nfts && nfts.length > 0
-    ? nfts.map(nft => <NFT data={nft} key={nft.id} />)
+    ? nfts.map(nft => <NFT apis={Apis} data={nft} key={nft.id} />)
     : [];
 }
 
@@ -53,12 +53,14 @@ export default function App() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>Bitshares NFT viewer</Paper>
+      <Container maxWidth="lg">
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>Bitshares NFT viewer</Paper>
+          </Grid>
+          <Gallery />
         </Grid>
-        <Gallery />
-      </Grid>
+      </Container>
     </div>
   );
 }
