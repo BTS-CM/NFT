@@ -67,16 +67,16 @@ function DisplayedNFT (properties) {
 
     if (!nftHolder || !nftHolder.length) {
       const nftHolder = await axios.get(
-        `http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
-        //`https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
+        //`http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
+        `https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
       );
       setNftHolder(nftHolder.data);
     }
 
     if (!esDetails || !esDetails.length) {
       const esData = await axios.get(
-        //`https://api.testnet.bitshares.ws/lookup/asset/${id}`
-        `http://localhost:8082/proxy/lookup/asset/${id}`
+        `https://api.testnet.bitshares.ws/lookup/asset/${id}`
+        //`http://localhost:8082/proxy/lookup/asset/${id}`
       );
       setESDetails(esData.data);
     }
@@ -255,7 +255,7 @@ function DisplayedNFT (properties) {
         <TextareaAutosize aria-label={"signature"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={nft_signature ? nft_signature : undefined} />;
       </TabPanel>
       <TabPanel value={value} index={5}>
-        <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={esDetails ? JSON.stringify(esDetails) : 'N/A'} />;
+        <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={esDetails ? JSON.stringify(esDetails) : 'N/A'} />
       </TabPanel>
     </Paper>
   );
