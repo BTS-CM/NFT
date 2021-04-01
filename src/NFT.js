@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
-
 
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -17,39 +18,13 @@ import Avatar from '@material-ui/core/Avatar';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 import { makeStyles } from '@material-ui/core/styles';
 import {Apis} from "bitsharesjs-ws";
 const axios = require("axios");
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
+const { TabPanel, a11yProps } = require("./tabs")
 
 function getPngDimensions(base64) {
   const header = atob(base64.slice(0, 50)).slice(16,24)
@@ -60,25 +35,31 @@ function getPngDimensions(base64) {
     width: dataView.getInt32(0),
     height: dataView.getInt32(4),
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
+    maxWidth: '100%',
+    maxHeight: '100%'
   }
 }
 
+const queryClient = new QueryClient();
+
 function DisplayedNFT (properties) {
   let Apis = properties.apis;
-  let data = properties.data;
+  let dataProps = properties.data;
 
-  let id = data.id;
-  let symbol = data.symbol;
-  let precision = data.precision;
+  let id = dataProps.id;
+  let symbol = dataProps.symbol;
+  let precision = dataProps.precision;
 
-  let issuer = data.issuer;
+  let issuer = dataProps.issuer;
   const [issuerName, setIssuerName] = useState();
   const [nftHolder, setNftHolder] = useState();
   const [esDetails, setESDetails] = useState();
   const [value, setValue] = useState(0);
 
+
   async function requestData () {
+
     if (!issuerName || !issuerName.length) {
       const issuerObject = await Apis.db.get_objects([issuer]);
       setIssuerName(issuerObject[0].name);
@@ -86,25 +67,60 @@ function DisplayedNFT (properties) {
 
     if (!nftHolder || !nftHolder.length) {
       const nftHolder = await axios.get(
-        //`http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
-        `https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
+        `http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
+        //`https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
       );
       setNftHolder(nftHolder.data);
     }
 
     if (!esDetails || !esDetails.length) {
       const esData = await axios.get(
-        `https://api.testnet.bitshares.ws/lookup/asset/${id}`
-        //`http://localhost:8082/proxy/lookup/asset/${id}`
+        //`https://api.testnet.bitshares.ws/lookup/asset/${id}`
+        `http://localhost:8082/proxy/lookup/asset/${id}`
       );
       setESDetails(esData.data);
     }
 
   }
 
+  /*
+  const { status, data, error, isFetching } = useQuery(`NFT_${id}`, async () => {
+    const issuerObject = await Apis.db.get_objects([issuer]);
+    const nftHolder = await axios.get(
+      `http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
+      //`https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
+    );
+    const esData = await axios.get(
+      //`https://api.testnet.bitshares.ws/lookup/asset/${id}`
+      `http://localhost:8082/proxy/lookup/asset/${id}`
+    );
+
+    return {
+      'name': issuerObject[0].name,
+      'holder': nftHolder.data,
+      'elastic': esData.data
+    }
+  });
+
+  if (data && !isFetching && !error) {
+    if (!issuerName || !issuerName.length) {
+      setIssuerName(data.name);
+    }
+
+    if (!nftHolder || !nftHolder.length) {
+      setNftHolder(data.holder);
+    }
+
+    if (!esDetails || !esDetails.length) {
+      setESDetails(data.elastic);
+    }
+  }
+  */
+
   useEffect(() => {
     requestData();
   }, []);
+
 
   let permissions = esDetails ? esDetails.permissions : undefined;
   let dynamic_asset_data = esDetails ? esDetails.dynamic_asset_data : undefined;
@@ -112,7 +128,7 @@ function DisplayedNFT (properties) {
 
   let flags = esDetails ? esDetails.flags : undefined;
 
-  let options = data.options;
+  let options = dataProps.options;
   let max_supply = options.max_supply;
 
   let description = JSON.parse(options.description); // json data
@@ -155,10 +171,8 @@ function DisplayedNFT (properties) {
     setValue(newValue);
   };
 
-  console.log(nftHolder)
-
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} id={id}>
       <Typography gutterBottom variant="h4" component="h1">
         "{short_name}" by {artist}
       </Typography>
@@ -174,12 +188,19 @@ function DisplayedNFT (properties) {
       </Typography>
       <br/>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="NFT Details" {...a11yProps(0)} />
-          <Tab label="Asset details" {...a11yProps(1)} />
+        <Tabs
+          value={value}
+          variant="scrollable"
+          scrollButtons="auto"
+          onChange={handleChange}
+          aria-label="scrollable auto tabs example"
+        >
+          <Tab label="NFT" {...a11yProps(0)} />
+          <Tab label="Asset" {...a11yProps(1)} />
           <Tab label="Flags" {...a11yProps(2)} />
           <Tab label="Permissions" {...a11yProps(3)} />
-          <Tab label="NFT signature" {...a11yProps(4)} />
+          <Tab label="Signature" {...a11yProps(4)} />
+          <Tab label="JSON" {...a11yProps(5)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -233,6 +254,9 @@ function DisplayedNFT (properties) {
       <TabPanel value={value} index={4}>
         <TextareaAutosize aria-label={"signature"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={nft_signature ? nft_signature : undefined} />;
       </TabPanel>
+      <TabPanel value={value} index={5}>
+        <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={esDetails ? JSON.stringify(esDetails) : 'N/A'} />;
+      </TabPanel>
     </Paper>
   );
 }
@@ -240,7 +264,9 @@ function DisplayedNFT (properties) {
 export default function NFT(properties) {
   return (
     <Grid item xs={12}>
+      <QueryClientProvider client={queryClient}>
         <DisplayedNFT {...properties} />
+      </QueryClientProvider>
     </Grid>
   );
 }
