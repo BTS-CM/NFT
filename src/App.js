@@ -25,6 +25,16 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import Drawer from '@material-ui/core/Drawer';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
 import NFT from "./NFT";
 const art = require("./art.json");
 const { TabPanel, a11yProps } = require("./tabs")
@@ -33,10 +43,22 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  list: {
+  width: 250,
+  },
+  fullList: {
+    width: 'auto',
   }
 }));
 
@@ -66,6 +88,7 @@ export default function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [colour, setColour] = useState(prefersDarkMode ? 'dark' : 'light')
   const [value, setValue] = useState(0);
+  const [drawerToggle, setDrawerToggle] = useState(false);
 
   const theme = React.useMemo(
     () =>
@@ -76,6 +99,15 @@ export default function App() {
       }),
     [colour],
   );
+
+
+  const toggleDrawer = (value) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setDrawerToggle(value);
+  };
 
   const changeColour = (event, newValue) => {
     setColour(newValue);
@@ -92,30 +124,54 @@ export default function App() {
         <Container maxWidth="lg">
           <Grid container spacing={4}>
 
+
+
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
+              <AppBar position="static">
+                <Toolbar>
+                  <IconButton onClick={toggleDrawer(true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <MenuIcon />
+                  </IconButton>
 
-                <AppBar position="static">
-                  <Tabs centered value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label="Bitshares NFT viewer" {...a11yProps(0)} />
-                    <Tab label="About" {...a11yProps(1)} />
-                    <Tab label="License" {...a11yProps(2)} />
-                    <Button style={{'margin': '5px', 'float': 'right'}} size="small" variant="contained" onClick={() => { colour === 'dark' ? setColour('light') : setColour('dark') }}>
-                      {colour === 'dark' ? <NightsStayIcon /> : <Brightness5Icon />}
-                    </Button>
-                  </Tabs>
-                </AppBar>
+                  <Drawer anchor='left' open={drawerToggle} onClose={toggleDrawer(false)}>
+                    <div
+                      className={classes.list}
+                      role="presentation"
+                      onClick={toggleDrawer(false)}
+                      onKeyDown={toggleDrawer(false)}
+                    >
+                      <List>
+                        <ListItem button key={'Featured'} onClick={() => setValue(0)}>
+                          <ListItemText primary={'Featured NFT'} />
+                        </ListItem>
+                        <ListItem button key={'About'} onClick={() => setValue(1)}>
+                          <ListItemText primary={'About'} />
+                        </ListItem>
+                        <ListItem button key={'License'} onClick={() => setValue(2)}>
+                          <ListItemText primary={'License'} />
+                        </ListItem>
+                      </List>
+                    </div>
+                  </Drawer>
 
-              </Paper>
+                  <Typography variant="h6" className={classes.title} onClick={() => setValue(0)}>
+                    Bitshares NFT viewer
+                  </Typography>
+                  <Button style={{'margin': '5px', 'float': 'right'}} size="small" variant="contained" onClick={() => { colour === 'dark' ? setColour('light') : setColour('dark') }}>
+                    {colour === 'dark' ? <NightsStayIcon /> : <Brightness5Icon />}
+                  </Button>
+                </Toolbar>
+              </AppBar>
+
             </Grid>
 
 
-            <TabPanel value={value} index={0}>
-            <Grid container spacing={4}>
-              <QueryClientProvider client={queryClient}>
-                <Gallery />
-              </QueryClientProvider>
-            </Grid>
+            <TabPanel value={value} index={0} style={{'maxWidth': '100%'}}>
+              <Grid container spacing={4}>
+                <QueryClientProvider client={queryClient}>
+                  <Gallery />
+                </QueryClientProvider>
+              </Grid>
             </TabPanel>
 
             <TabPanel value={value} index={1}>

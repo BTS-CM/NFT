@@ -24,7 +24,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Apis} from "bitsharesjs-ws";
 const axios = require("axios");
 
-const { TabPanel, a11yProps } = require("./tabs")
+const { TabPanel, a11yProps } = require("./tabs");
+const { useQueryHook } = require("./use-query-hook");
 
 function getPngDimensions(base64) {
   const header = atob(base64.slice(0, 50)).slice(16,24)
@@ -48,86 +49,46 @@ function DisplayedNFT (properties) {
   let dataProps = properties.data;
 
   let id = dataProps.id;
-  let symbol = dataProps.symbol;
-  let precision = dataProps.precision;
-
   let issuer = dataProps.issuer;
-  const [issuerName, setIssuerName] = useState();
+
+  const [issuerDetails, setIssuerDetails] = useState();
   const [nftHolder, setNftHolder] = useState();
   const [esDetails, setESDetails] = useState();
   const [value, setValue] = useState(0);
 
+  useQueryHook(
+    //`https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
+    `http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
+    `getnftholders_${id}`,
+    setNftHolder,
+    {refetchInterval: 120000}
+  );
 
-  async function requestData () {
+  useQueryHook(
+    //`https://api.testnet.bitshares.ws/lookup/asset/${id}`,
+    `http://localhost:8082/proxy/lookup/asset/${id}`,
+    `getAsset_${id}`,
+    setESDetails,
+    {}
+  );
 
-    if (!issuerName || !issuerName.length) {
-      const issuerObject = await Apis.db.get_objects([issuer]);
-      setIssuerName(issuerObject[0].name);
-    }
+  useQueryHook(
+    //`https://api.testnet.bitshares.ws/openexplorer/object?object=${issuer}`,
+    `http://localhost:8082/proxy/openexplorer/object?object=${issuer}`,
+    `getissuerName_${issuer}`,
+    setIssuerDetails,
+    {}
+  );
 
-    if (!nftHolder || !nftHolder.length) {
-      const nftHolder = await axios.get(
-        //`http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
-        `https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
-      );
-      setNftHolder(nftHolder.data);
-    }
-
-    if (!esDetails || !esDetails.length) {
-      const esData = await axios.get(
-        `https://api.testnet.bitshares.ws/lookup/asset/${id}`
-        //`http://localhost:8082/proxy/lookup/asset/${id}`
-      );
-      setESDetails(esData.data);
-    }
-
-  }
-
-  /*
-  const { status, data, error, isFetching } = useQuery(`NFT_${id}`, async () => {
-    const issuerObject = await Apis.db.get_objects([issuer]);
-    const nftHolder = await axios.get(
-      `http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
-      //`https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`
-    );
-    const esData = await axios.get(
-      //`https://api.testnet.bitshares.ws/lookup/asset/${id}`
-      `http://localhost:8082/proxy/lookup/asset/${id}`
-    );
-
-    return {
-      'name': issuerObject[0].name,
-      'holder': nftHolder.data,
-      'elastic': esData.data
-    }
-  });
-
-  if (data && !isFetching && !error) {
-    if (!issuerName || !issuerName.length) {
-      setIssuerName(data.name);
-    }
-
-    if (!nftHolder || !nftHolder.length) {
-      setNftHolder(data.holder);
-    }
-
-    if (!esDetails || !esDetails.length) {
-      setESDetails(data.elastic);
-    }
-  }
-  */
-
-  useEffect(() => {
-    requestData();
-  }, []);
-
-
-  let permissions = esDetails ? esDetails.permissions : undefined;
+  let issuerName = issuerDetails ? issuerDetails.name : undefined;
   let dynamic_asset_data = esDetails ? esDetails.dynamic_asset_data : undefined;
   let current_supply = dynamic_asset_data ? dynamic_asset_data.current_supply : undefined;
 
+  let permissions = esDetails ? esDetails.permissions : undefined;
   let flags = esDetails ? esDetails.flags : undefined;
 
+  let symbol = dataProps.symbol;
+  let precision = dataProps.precision;
   let options = dataProps.options;
   let max_supply = options.max_supply;
 
@@ -144,7 +105,7 @@ function DisplayedNFT (properties) {
   let narrative = nft_object.narrative;
   let title = nft_object.title;
 
-  let type = nft_object.type;
+  let type = nft_object.type ? nft_object.type : undefined;
   let encoding = nft_object.encoding;
   let image_png = nft_object.image_png;
   let imgURL = encoding && encoding === "base64"
@@ -172,92 +133,94 @@ function DisplayedNFT (properties) {
   };
 
   return (
-    <Paper className={classes.paper} id={id}>
-      <Typography gutterBottom variant="h4" component="h1">
-        "{short_name}" by {artist}
-      </Typography>
-      {
-        imgURL
-          ? <a href={imgURL}>
-              <img src={imgURL} alt={short_name + " image"} className={classes.media} />
-            </a>
-          : undefined
-      }
-      <Typography gutterBottom variant="h6" component="h4">
-        {main}
-      </Typography>
-      <br/>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          variant="scrollable"
-          scrollButtons="auto"
-          onChange={handleChange}
-          aria-label="scrollable auto tabs example"
-        >
-          <Tab label="NFT" {...a11yProps(0)} />
-          <Tab label="Asset" {...a11yProps(1)} />
-          <Tab label="Flags" {...a11yProps(2)} />
-          <Tab label="Permissions" {...a11yProps(3)} />
-          <Tab label="Signature" {...a11yProps(4)} />
-          <Tab label="JSON" {...a11yProps(5)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        <p>Attestation: "{attestation}"</p>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Chip className={classes.chip} label={`Current owner: ${nftHolder && nftHolder.length ? nftHolder[0].name : '???'}`} />
-        <Chip className={classes.chip} label={`Quantity issued: ${current_supply ? current_supply : '???'}`} />
-        <Chip className={classes.chip} color={issuerName && issuerName === 'null-account' ? 'primary' : 'secondary'} label={`Asset ownership: ${issuerName}`} />
-        <br/>
-        <br/>
-        <a href={"https://wallet.bitshares.org/#/asset/" + symbol} style={{'padding': '5px'}}>
-          <Button variant="contained">{symbol}</Button>
-        </a>
-        <a href={`https://wallet.bitshares.org/#/market/${symbol}_${market}`}>
-          <Button variant="contained">Make Offer</Button>
-        </a>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
+    <Grid item xs={12}>
+      <Paper className={classes.paper} id={id}>
+        <Typography gutterBottom variant="h4" component="h1">
+          "{short_name}" by {artist}
+        </Typography>
         {
-          flags
-            ? Object.keys(flags).map(
-                (flag) => {
-                  const flagValue = flags[flag];
-                  return <Chip
-                          className={classes.chip}
-                          avatar={<Avatar>{flagValue === true || flagValue === 'true'  ? '✔' : '❌'}</Avatar>}
-                          label={flag.replace(/_/g, ' ')}
-                         />
-                }
-              )
+          imgURL
+            ? <a href={imgURL}>
+                <img src={imgURL} alt={short_name + " image"} className={classes.media} />
+              </a>
             : undefined
         }
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        {
-          permissions
-            ? Object.keys(permissions).map(
-                (permission) => {
-                  const permissionValue = permissions[permission];
-                  return <Chip
-                          className={classes.chip}
-                          avatar={<Avatar>{permissionValue === true || permissionValue === 'true'  ? '✔' : '❌'}</Avatar>}
-                          label={permission.replace(/_/g, ' ')}
-                         />
-                }
-              )
-            : undefined
-        }
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <TextareaAutosize aria-label={"signature"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={nft_signature ? nft_signature : undefined} />;
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={esDetails ? JSON.stringify(esDetails) : 'N/A'} />
-      </TabPanel>
-    </Paper>
+        <Typography gutterBottom variant="h6" component="h4">
+          {main}
+        </Typography>
+        <br/>
+        <AppBar position="static">
+          <Tabs
+            value={value}
+            variant="scrollable"
+            scrollButtons="auto"
+            onChange={handleChange}
+            aria-label="scrollable auto tabs example"
+          >
+            <Tab label="NFT" {...a11yProps(0)} />
+            <Tab label="Asset" {...a11yProps(1)} />
+            <Tab label="Flags" {...a11yProps(2)} />
+            <Tab label="Permissions" {...a11yProps(3)} />
+            <Tab label="Signature" {...a11yProps(4)} />
+            <Tab label="JSON" {...a11yProps(5)} />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+          <p>Attestation: "{attestation}"</p>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Chip className={classes.chip} label={`Current owner: ${nftHolder && nftHolder.length ? nftHolder[0].name : '???'}`} />
+          <Chip className={classes.chip} label={`Quantity issued: ${current_supply ? current_supply : '???'}`} />
+          <Chip className={classes.chip} color={issuerName && issuerName === 'null-account' ? 'primary' : 'secondary'} label={`Asset maintainer: ${issuerName}`} />
+          <br/>
+          <br/>
+          <a href={"https://wallet.bitshares.org/#/asset/" + symbol} style={{'padding': '5px'}}>
+            <Button variant="contained">{symbol}</Button>
+          </a>
+          <a href={`https://wallet.bitshares.org/#/market/${symbol}_${market}`}>
+            <Button variant="contained">Make Offer</Button>
+          </a>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          {
+            flags
+              ? Object.keys(flags).map(
+                  (flag) => {
+                    const flagValue = flags[flag];
+                    return <Chip
+                            className={classes.chip}
+                            avatar={<Avatar>{flagValue === true || flagValue === 'true'  ? '✔' : '❌'}</Avatar>}
+                            label={flag.replace(/_/g, ' ')}
+                           />
+                  }
+                )
+              : undefined
+          }
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          {
+            permissions
+              ? Object.keys(permissions).map(
+                  (permission) => {
+                    const permissionValue = permissions[permission];
+                    return <Chip
+                            className={classes.chip}
+                            avatar={<Avatar>{permissionValue === true || permissionValue === 'true'  ? '✔' : '❌'}</Avatar>}
+                            label={permission.replace(/_/g, ' ')}
+                           />
+                  }
+                )
+              : undefined
+          }
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          <TextareaAutosize aria-label={"signature"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={nft_signature ? nft_signature : undefined} />;
+        </TabPanel>
+        <TabPanel value={value} index={5}>
+          <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={esDetails ? JSON.stringify(esDetails) : 'N/A'} />
+        </TabPanel>
+      </Paper>
+    </Grid>
   );
 }
 
