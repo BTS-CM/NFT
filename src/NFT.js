@@ -57,24 +57,24 @@ function DisplayedNFT (properties) {
   const [value, setValue] = useState(0);
 
   useQueryHook(
-    //`https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
-    `http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
+    `https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
+    //`http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
     `getnftholders_${id}`,
     setNftHolder,
     {refetchInterval: 120000}
   );
 
   useQueryHook(
-    //`https://api.testnet.bitshares.ws/lookup/asset/${id}`,
-    `http://localhost:8082/proxy/lookup/asset/${id}`,
+    `https://api.testnet.bitshares.ws/lookup/asset/${id}`,
+    //`http://localhost:8082/proxy/lookup/asset/${id}`,
     `getAsset_${id}`,
     setESDetails,
     {}
   );
 
   useQueryHook(
-    //`https://api.testnet.bitshares.ws/openexplorer/object?object=${issuer}`,
-    `http://localhost:8082/proxy/openexplorer/object?object=${issuer}`,
+    `https://api.testnet.bitshares.ws/openexplorer/object?object=${issuer}`,
+    //`http://localhost:8082/proxy/openexplorer/object?object=${issuer}`,
     `getissuerName_${issuer}`,
     setIssuerDetails,
     {}
