@@ -109,14 +109,6 @@ export default function App() {
     setDrawerToggle(value);
   };
 
-  const changeColour = (event, newValue) => {
-    setColour(newValue);
-  };
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>

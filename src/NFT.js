@@ -20,6 +20,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
+
 import { makeStyles } from '@material-ui/core/styles';
 import {Apis} from "bitsharesjs-ws";
 const axios = require("axios");
@@ -132,6 +135,55 @@ function DisplayedNFT (properties) {
     setValue(newValue);
   };
 
+  const flagChips = flags
+    ? Object.keys(flags).map(
+        (flag) => {
+          const flagValue = flags[flag];
+          return flagValue === true
+            ? <Chip
+                className={classes.chip}
+                avatar={<Avatar>{flagValue === true || flagValue === 'true'  ? '✔' : '❌'}</Avatar>}
+                label={flag.replace(/_/g, ' ')}
+               />
+            : undefined;
+        }
+      ).filter(x => x)
+    : undefined;
+
+  const permissionTips = {
+    charge_market_fee : "The asset issuer can enable market fees.",
+    white_list : "The asset issuer can create a list of approved markets",
+    override_authority : "The asset issuer can transfer this NFT back to themselves.",
+    transfer_restricted : "This asset may only be transferred to/from the issuer or market orders",
+    disable_force_settle: "Users may request force-settlement of this market-issued asset.",
+    global_settle: "The issuer of this market-issued asset may globally settle the asset",
+    disable_confidential: "The issuer of this asset can disable stealth transactions.",
+    witness_fed_asset: "This market-issued asset can have its price feeds supplied by Bitshares witnesses.",
+    committee_fed_asset: "This market-issued asset can have its price feeds supplied by Bitshares committee members.",
+  };
+
+  const permissionChips = permissions
+    ? Object.keys(permissions).map(
+        (permission) => {
+          const permissionValue = permissions[permission];
+          return permissionValue === true
+            ? <Tooltip
+                TransitionComponent={Zoom}
+                disableFocusListener
+                title={permissionTips[permission]}
+              >
+                <Chip
+                  className={classes.chip}
+                  avatar={<Avatar>{permissionValue === true || permissionValue === 'true'  ? '✔' : '❌'}</Avatar>}
+                  label={permission.replace(/_/g, ' ')}
+                 />
+              </Tooltip>
+            : undefined;
+
+        }
+      )
+    : undefined
+
   return (
     <Grid item xs={12}>
       <Paper className={classes.paper} id={id}>
@@ -166,12 +218,53 @@ function DisplayedNFT (properties) {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <p>Attestation: "{attestation}"</p>
+          <Typography variant="body1" gutterBottom>
+            <b>Attestation</b>: "{attestation}"
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <b>Narrative</b>: "{narrative}"
+          </Typography>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <Chip className={classes.chip} label={`Current owner: ${nftHolder && nftHolder.length ? nftHolder[0].name : '???'}`} />
           <Chip className={classes.chip} label={`Quantity issued: ${current_supply ? current_supply : '???'}`} />
-          <Chip className={classes.chip} color={issuerName && issuerName === 'null-account' ? 'primary' : 'secondary'} label={`Asset maintainer: ${issuerName}`} />
+          <Chip className={classes.chip} label={`File type: ${type ? type : '???'}`} />
+
+          <Tooltip
+            TransitionComponent={Zoom}
+            disableFocusListener
+            title={
+              encoding === "base64"
+                ? `This NFT is fully stored on the Bitshares blockchain!`
+                : `This NFT may not be stored fully on chain.`
+              }
+          >
+            <Chip className={classes.chip} label={`File encoding: ${encoding ? encoding : '???'}`} />
+          </Tooltip>
+
+          <Tooltip
+            TransitionComponent={Zoom}
+            disableFocusListener
+            title={
+              precision === 0
+                ? `With a precision of 0, "${short_name}" is a non-fungible token!`
+                : `Due to not having a precision of 0, this is a fungible token.`
+              }
+          >
+            <Chip className={classes.chip} label={`Precision: ${precision}`} />
+          </Tooltip>
+
+          <Tooltip
+            TransitionComponent={Zoom}
+            disableFocusListener
+            title={
+              issuerName && issuerName === 'null-account'
+                ? `Asset ownership has been "burned" by being sent to "null-account"; this NFT's settings are now final.`
+                : `Warning: Asset ownership has not been transfered to "null-account" yet; the settings and quantity issued could change after purchase.`
+            }
+          >
+            <Chip className={classes.chip} color={issuerName && issuerName === 'null-account' ? 'primary' : 'secondary'} label={`Asset issuer: ${issuerName}`} />
+          </Tooltip>
           <br/>
           <br/>
           <a href={"https://wallet.bitshares.org/#/asset/" + symbol} style={{'padding': '5px'}}>
@@ -183,34 +276,16 @@ function DisplayedNFT (properties) {
         </TabPanel>
         <TabPanel value={value} index={2}>
           {
-            flags
-              ? Object.keys(flags).map(
-                  (flag) => {
-                    const flagValue = flags[flag];
-                    return <Chip
-                            className={classes.chip}
-                            avatar={<Avatar>{flagValue === true || flagValue === 'true'  ? '✔' : '❌'}</Avatar>}
-                            label={flag.replace(/_/g, ' ')}
-                           />
-                  }
-                )
-              : undefined
+            flagChips && flagChips.length
+              ? flagChips
+              : 'No flags are currently enabled.'
           }
         </TabPanel>
         <TabPanel value={value} index={3}>
           {
-            permissions
-              ? Object.keys(permissions).map(
-                  (permission) => {
-                    const permissionValue = permissions[permission];
-                    return <Chip
-                            className={classes.chip}
-                            avatar={<Avatar>{permissionValue === true || permissionValue === 'true'  ? '✔' : '❌'}</Avatar>}
-                            label={permission.replace(/_/g, ' ')}
-                           />
-                  }
-                )
-              : undefined
+            permissionChips && permissionChips.length
+              ? permissionChips
+              : 'All permissions have been disabled.'
           }
         </TabPanel>
         <TabPanel value={value} index={4}>
