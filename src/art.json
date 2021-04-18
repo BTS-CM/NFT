@@ -1,9 +1,6 @@
-{
-  "art": [
-    "MKUU.NFT00002",
-    "MKUU.NFT00003",
-    "MKUU.NFT00004",
-    "MKUU.NFT00005",
-    "MKUU.NFT00006"
-  ]
-}
+[
+  {"name": "MKUU.NFT00002", "id": "1.3.1628"},
+  {"name": "MKUU.NFT00003", "id": "1.3.1629"},
+  {"name": "MKUU.NFT00004", "id": "1.3.1630"},
+  {"name": "MKUU.NFT00006", "id": "1.3.1634"}
+]

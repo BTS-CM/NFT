@@ -24,4 +24,33 @@ function useQueryHook(
   }, [data, isFetching, error]);
 }
 
-export { useQueryHook };
+function useIdleQueryHook(
+  url,
+  queryName,
+  requiredField,
+  functionToSet,
+  queryConfig={}
+) {
+  const { isIdle, data, error, isFetching } = useQuery(
+    queryName,
+    async () => {
+      let response = await axios.get(url);
+      return response.data;
+    },
+    {
+      enabled: !!requiredField,
+    }
+  );
+
+  useEffect(() => {
+    if (data && !isFetching && !error) {
+      functionToSet(data);
+    }
+  }, [data, isFetching, error]);
+
+}
+
+export {
+  useQueryHook,
+  useIdleQueryHook
+};

@@ -7,11 +7,6 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
@@ -28,7 +23,7 @@ import {Apis} from "bitsharesjs-ws";
 const axios = require("axios");
 
 const { TabPanel, a11yProps } = require("./tabs");
-const { useQueryHook } = require("./use-query-hook");
+const { useQueryHook } = require("./reactQuery");
 
 function getPngDimensions(base64) {
   const header = atob(base64.slice(0, 50)).slice(16,24)
@@ -60,24 +55,24 @@ function DisplayedNFT (properties) {
   const [value, setValue] = useState(0);
 
   useQueryHook(
-    `https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
-    //`http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
+    //`https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
+    `http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
     `getnftholders_${id}`,
     setNftHolder,
     {refetchInterval: 120000}
   );
 
   useQueryHook(
-    `https://api.testnet.bitshares.ws/lookup/asset/${id}`,
-    //`http://localhost:8082/proxy/lookup/asset/${id}`,
+    //`https://api.testnet.bitshares.ws/lookup/asset/${id}`,
+    `http://localhost:8082/proxy/lookup/asset/${id}`,
     `getAsset_${id}`,
     setESDetails,
     {}
   );
 
   useQueryHook(
-    `https://api.testnet.bitshares.ws/openexplorer/object?object=${issuer}`,
-    //`http://localhost:8082/proxy/openexplorer/object?object=${issuer}`,
+    //`https://api.testnet.bitshares.ws/openexplorer/object?object=${issuer}`,
+    `http://localhost:8082/proxy/openexplorer/object?object=${issuer}`,
     `getissuerName_${issuer}`,
     setIssuerDetails,
     {}
@@ -185,7 +180,7 @@ function DisplayedNFT (properties) {
     : undefined
 
   return (
-    <Grid item xs={12}>
+    <Grid item xs={12} style={{'paddingBottom': '25px'}}>
       <Paper className={classes.paper} id={id}>
         <Typography gutterBottom variant="h4" component="h1">
           "{short_name}" by {artist}
