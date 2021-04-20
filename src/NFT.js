@@ -25,6 +25,33 @@ const axios = require("axios");
 const { TabPanel, a11yProps } = require("./tabs");
 const { useQueryHook } = require("./reactQuery");
 
+function getImage(nft_object) {
+  let image;
+  let imgURL;
+  let dimensions;
+  if (nft_object.media_png || nft_object.image_png) {
+    image = nft_object.media_png || nft_object.image_png || undefined;
+    imgURL = image
+              ? "data:image/png;base64," + image
+              : undefined;
+  } else if (nft_object.media_gif || nft_object.media_GIF || nft_object.image_GIF || nft_object.image_gif) {
+    image = nft_object.media_gif || nft_object.media_GIF || nft_object.image_GIF || nft_object.image_gif || undefined;
+    imgURL = image
+              ? "data:image/gif;base64," + image
+              : undefined;
+  } else if (nft_object.media_jpeg || nft_object.image_jpeg) {
+    image = nft_object.media_jpeg || nft_object.image_jpeg || undefined;
+    imgURL = image
+              ? "data:image/jpeg;base64," + image
+              : undefined;
+  }
+
+  return {
+    image: image,
+    imgURL: imgURL
+  }
+}
+
 function getPngDimensions(base64) {
   const header = atob(base64.slice(0, 50)).slice(16,24)
   const uint8 = Uint8Array.from(header, c => c.charCodeAt(0))
@@ -55,24 +82,24 @@ function DisplayedNFT (properties) {
   const [value, setValue] = useState(0);
 
   useQueryHook(
-    //`https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
-    `http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
+    `https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
+    //`http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
     `getnftholders_${id}`,
     setNftHolder,
     {refetchInterval: 120000}
   );
 
   useQueryHook(
-    //`https://api.testnet.bitshares.ws/lookup/asset/${id}`,
-    `http://localhost:8082/proxy/lookup/asset/${id}`,
+    `https://api.testnet.bitshares.ws/lookup/asset/${id}`,
+    //`http://localhost:8082/proxy/lookup/asset/${id}`,
     `getAsset_${id}`,
     setESDetails,
     {}
   );
 
   useQueryHook(
-    //`https://api.testnet.bitshares.ws/openexplorer/object?object=${issuer}`,
-    `http://localhost:8082/proxy/openexplorer/object?object=${issuer}`,
+    `https://api.testnet.bitshares.ws/openexplorer/object?object=${issuer}`,
+    //`http://localhost:8082/proxy/openexplorer/object?object=${issuer}`,
     `getissuerName_${issuer}`,
     setIssuerDetails,
     {}
@@ -94,21 +121,25 @@ function DisplayedNFT (properties) {
   let main = description.main;
   let market = description.market;
   let short_name = description.short_name;
-
   let nft_signature = description.nft_signature;
 
   let nft_object = description.nft_object;
-  let artist = nft_object.artist;
-  let attestation = nft_object.attestation;
-  let narrative = nft_object.narrative;
-  let title = nft_object.title;
-
+  let artist = nft_object.artist ? nft_object.artist : undefined;
+  let attestation = nft_object.attestation ? nft_object.attestation : undefined;
+  let narrative = nft_object.narrative ? nft_object.narrative : undefined;
+  let title = nft_object.title ? nft_object.title : undefined;
   let type = nft_object.type ? nft_object.type : undefined;
+
+  /*
+  let tags = nft_object.tags ? nft_object.tags : undefined;
+  let nft_flags = nft_object.flags ? nft_object.flags : undefined;
+  let license = nft_object.license ? nft_object.license : undefined;
+  let holder_license = nft_object.holder_license ? nft_object.holder_license : undefined;
+  let password_multihash = nft_object.password_multihash ? nft_object.password_multihash : undefined;
+  */
+
   let encoding = nft_object.encoding;
-  let image_png = nft_object.image_png;
-  let imgURL = encoding && encoding === "base64"
-                  ? "data:image/png;base64," + image_png
-                  : undefined;
+  let { image, imgURL } = getImage(nft_object);
 
   const useStyles = makeStyles((theme) => ({
     paper: {
@@ -119,7 +150,8 @@ function DisplayedNFT (properties) {
     chip: {
       margin: theme.spacing(0.25)
     },
-    media: imgURL ? getPngDimensions(image_png) : {},
+    //media: image ? getPngDimensions(image) : {},
+    media: {},
     root: {
       textAlign: 'center'
     }
@@ -284,7 +316,7 @@ function DisplayedNFT (properties) {
           }
         </TabPanel>
         <TabPanel value={value} index={4}>
-          <TextareaAutosize aria-label={"signature"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={nft_signature ? nft_signature : undefined} />;
+          <TextareaAutosize aria-label={"signature"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={nft_signature ? nft_signature : undefined} />
         </TabPanel>
         <TabPanel value={value} index={5}>
           <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={esDetails ? JSON.stringify(esDetails) : 'N/A'} />
