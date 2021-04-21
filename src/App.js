@@ -45,12 +45,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import NFT from "./NFT";
 import Search from "./Search";
 import About from "./About";
 import License from "./License";
 import Nav from "./Nav";
 import IndividualNFT from "./IndividualNFT";
+import MainPage from "./MainPage";
+import Gallery from "./Gallery";
 
 const art = require("./art.json");
 const { TabPanel, a11yProps } = require("./tabs")
@@ -79,25 +80,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const queryClient = new QueryClient();
-
-function Gallery() {
-
-  const [nfts, setNfts] = useState([]);
-  const { status, data, error, isFetching } = useQuery('wsNFT', async () => {
-    await Apis.instance("wss://node.testnet.bitshares.eu", true).init_promise;
-    return await Apis.db.get_assets(art.map(asset => asset.name));
-  });
-
-  if (!nfts || !nfts.length) {
-    if (data && !error) {
-      setNfts(data.filter(x => x))
-    }
-  }
-
-  return nfts && nfts.length > 0
-    ? nfts.map(nft => <NFT apis={Apis} data={nft} key={nft.id} />)
-    : [];
-}
 
 export default function App() {
   const classes = useStyles();
@@ -130,13 +112,13 @@ export default function App() {
               <Grid item xs={12}>
                 <Switch>
                   <Route path="/search">
-                    <Grid container spacing={4} style={{'maxWidth': '100%'}}>
+                    <Grid container style={{'maxWidth': '100%'}} key="search">
                       <Search art={art} />
                     </Grid>
                   </Route>
 
                   <Route path="/nft/:id">
-                    <Grid container style={{'maxWidth': '100%'}}>
+                    <Grid container style={{'maxWidth': '100%'}} key="singleNFT">
                       <QueryClientProvider client={queryClient}>
                         <IndividualNFT />
                       </QueryClientProvider>
@@ -144,17 +126,29 @@ export default function App() {
                   </Route>
 
                   <Route path="/about">
-                    <About />
+                    <Grid container style={{'maxWidth': '100%'}} key="index">
+                      <About />
+                    </Grid>
                   </Route>
 
                   <Route path="/license">
-                    <License />
+                    <Grid container style={{'maxWidth': '100%'}} key="index">
+                      <License />
+                    </Grid>
+                  </Route>
+
+                  <Route path="/gallery">
+                    <Grid container style={{'maxWidth': '100%'}} key="index">
+                      <QueryClientProvider client={queryClient}>
+                        <Gallery art={art} />
+                      </QueryClientProvider>
+                    </Grid>
                   </Route>
 
                   <Route path="/">
-                    <Grid container style={{'maxWidth': '100%'}}>
+                    <Grid container style={{'maxWidth': '100%'}} key="index">
                       <QueryClientProvider client={queryClient}>
-                        <Gallery />
+                        <MainPage art={art} />
                       </QueryClientProvider>
                     </Grid>
                   </Route>

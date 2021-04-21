@@ -17,11 +17,47 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
-
 import { makeStyles } from '@material-ui/core/styles';
+
+import {
+  LinkedinShareButton,
+  TwitterShareButton,
+  OKShareButton,
+  TelegramShareButton,
+  FacebookShareButton,
+  WhatsappShareButton,
+  RedditShareButton,
+  EmailShareButton,
+  TumblrShareButton,
+  LivejournalShareButton,
+  MailruShareButton,
+  ViberShareButton,
+  WorkplaceShareButton,
+  LineShareButton,
+  PocketShareButton,
+  InstapaperShareButton,
+  HatenaShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  LinkedinIcon,
+  OKIcon,
+  TelegramIcon,
+  WhatsappIcon,
+  RedditIcon,
+  TumblrIcon,
+  MailruIcon,
+  EmailIcon,
+  LivejournalIcon,
+  ViberIcon,
+  WorkplaceIcon,
+  LineIcon,
+  PocketIcon,
+  InstapaperIcon,
+  HatenaIcon,
+} from "react-share";
+
 import {Apis} from "bitsharesjs-ws";
 const axios = require("axios");
-
 const { TabPanel, a11yProps } = require("./tabs");
 const { useQueryHook } = require("./reactQuery");
 
@@ -154,6 +190,13 @@ function DisplayedNFT (properties) {
     media: {},
     root: {
       textAlign: 'center'
+    },
+    a: {
+      color: theme.palette.text.secondary,
+      textDecoration: 'none'
+    },
+    share: {
+      margin: theme.spacing(0.25)
     }
   }));
 
@@ -211,11 +254,13 @@ function DisplayedNFT (properties) {
       )
     : undefined
 
+  const shareUrl = `https://btsnft.onrender.com/${symbol}`;
+
   return (
-    <Grid item xs={12} style={{'paddingBottom': '25px'}}>
+    <Grid item xs={12} style={{'paddingBottom': '25px'}} key={symbol + "NFT"}>
       <Paper className={classes.paper} id={id}>
         <Typography gutterBottom variant="h4" component="h1">
-          "{short_name}" by {artist}
+          "<a href={`/nft/${symbol}`}  className={classes.a}>{short_name}</a>" by {artist}
         </Typography>
         {
           imgURL
@@ -228,7 +273,7 @@ function DisplayedNFT (properties) {
           {main}
         </Typography>
         <br/>
-        <AppBar position="static">
+        <AppBar position="static" color="inherit">
           <Tabs
             value={value}
             variant="scrollable"
@@ -242,6 +287,7 @@ function DisplayedNFT (properties) {
             <Tab label="Permissions" {...a11yProps(3)} />
             <Tab label="Signature" {...a11yProps(4)} />
             <Tab label="JSON" {...a11yProps(5)} />
+            <Tab label="Share" {...a11yProps(6)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -320,6 +366,140 @@ function DisplayedNFT (properties) {
         </TabPanel>
         <TabPanel value={value} index={5}>
           <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={esDetails ? JSON.stringify(esDetails) : 'N/A'} />
+        </TabPanel>
+        <TabPanel value={value} index={6}>
+
+            <FacebookShareButton
+              url={shareUrl}
+              quote={title}
+              className={classes.share}
+            >
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+
+            <TwitterShareButton
+              url={shareUrl}
+              title={title}
+              className={classes.share}
+            >
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
+
+            <TelegramShareButton
+              url={shareUrl}
+              title={title}
+              className={classes.share}
+            >
+              <TelegramIcon size={32} round />
+            </TelegramShareButton>
+
+            <WhatsappShareButton
+              url={shareUrl}
+              title={title}
+              separator=":: "
+              className={classes.share}
+            >
+              <WhatsappIcon size={32} round />
+            </WhatsappShareButton>
+
+            <LinkedinShareButton url={shareUrl} className={classes.share} >
+              <LinkedinIcon size={32} round />
+            </LinkedinShareButton>
+
+            <RedditShareButton
+              url={shareUrl}
+              title={title}
+              windowWidth={660}
+              windowHeight={460}
+              className={classes.share}
+            >
+              <RedditIcon size={32} round />
+            </RedditShareButton>
+
+            <TumblrShareButton
+              url={shareUrl}
+              title={title}
+              className={classes.share}
+            >
+              <TumblrIcon size={32} round />
+            </TumblrShareButton>
+
+            <LivejournalShareButton
+              url={shareUrl}
+              title={title}
+              description={shareUrl}
+              className={classes.share}
+            >
+              <LivejournalIcon size={32} round />
+            </LivejournalShareButton>
+
+            <MailruShareButton
+              url={shareUrl}
+              title={title}
+              className={classes.share}
+            >
+              <MailruIcon size={32} round />
+            </MailruShareButton>
+
+            <EmailShareButton
+              url={shareUrl}
+              subject={title}
+              body="body"
+              className={classes.share}
+            >
+              <EmailIcon size={32} round />
+            </EmailShareButton>
+
+            <ViberShareButton
+              url={shareUrl}
+              title={title}
+              className={classes.share}
+            >
+              <ViberIcon size={32} round />
+            </ViberShareButton>
+
+            <WorkplaceShareButton
+              url={shareUrl}
+              quote={title}
+              className={classes.share}
+            >
+              <WorkplaceIcon size={32} round />
+            </WorkplaceShareButton>
+
+            <LineShareButton
+              url={shareUrl}
+              title={title}
+              className={classes.share}
+            >
+              <LineIcon size={32} round />
+            </LineShareButton>
+
+            <PocketShareButton
+              url={shareUrl}
+              title={title}
+              className={classes.share}
+            >
+              <PocketIcon size={32} round />
+            </PocketShareButton>
+
+            <InstapaperShareButton
+              url={shareUrl}
+              title={title}
+              className={classes.share}
+            >
+              <InstapaperIcon size={32} round />
+            </InstapaperShareButton>
+
+            <HatenaShareButton
+              url={shareUrl}
+              title={title}
+              windowWidth={660}
+              windowHeight={460}
+              className={classes.share}
+            >
+              <HatenaIcon size={32} round />
+            </HatenaShareButton>
+
         </TabPanel>
       </Paper>
     </Grid>

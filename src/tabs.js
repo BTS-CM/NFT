@@ -8,14 +8,15 @@ function TabPanel(props) {
   return (
     <div
       role="tabpanel"
+      color="inherit"
       hidden={value !== index}
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
+        <Box p={3} color="inherit">
+          <Typography color="inherit">{children}</Typography>
         </Box>
       )}
     </div>

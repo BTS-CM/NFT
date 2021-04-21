@@ -83,19 +83,39 @@ function SearchPanel (properties) {
     }
   };
 
-  return (<form className={classes.root} noValidate autoComplete="off">
-            <Typography gutterBottom variant="h4" component="h1">
-              Search for NFT on Bitshares
-            </Typography>
-            <TextField key="searchInput" id="outlined-basic" label="Search for NFT" onChange={updateSearchValue} variant="outlined" />
-            <div className={classes.root}>
-              <List component="nav" aria-label="search result list">
-                {
-                  overlay
-                }
-              </List>
-            </div>
-          </form>);
+  /*
+    <form className={classes.root} noValidate autoComplete="off">
+    </form>
+  */
+
+  return (
+    <Grid item xs={12} key={"Search Window"}>
+      <Paper className={classes.paper} style={{'padding': '20px'}}>
+          <Typography gutterBottom variant="h4" component="h1">
+            Search for NFT
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Either enter the id (1.3.x) or name of the NFT you wish to find 
+          </Typography>
+          <TextField
+            key="searchInput"
+            id="outlined-basic"
+            label="NFT name"
+            onChange={updateSearchValue}
+            variant="outlined"
+            style={{'marginTop': '20px'}}
+          />
+          <div className={classes.root}>
+            <List component="nav" aria-label="search result list">
+              {
+                overlay
+              }
+            </List>
+          </div>
+      </Paper>
+    </Grid>
+
+  );
 }
 
 export default function Search(properties) {

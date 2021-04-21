@@ -52,43 +52,46 @@ export default function Nav(properties) {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <IconButton onClick={toggleDrawer(true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <MenuIcon />
-        </IconButton>
+      <AppBar position="static" color="inherit">
+        <Toolbar>
+          <IconButton onClick={toggleDrawer(true)}  color="inherit" edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
 
-        <Drawer anchor='left' open={drawerToggle} onClose={toggleDrawer(false)}>
-          <div
-            className={classes.list}
-            role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
-          >
-            <List>
-              <ListItem button component={RouterLink} key={'Home'} to={"/"}>
-                <ListItemText primary={'Home'} />
-              </ListItem>
-              <ListItem button component={RouterLink} key={'Search'} to={"/search"}>
-                <ListItemText primary={'Search'} />
-              </ListItem>
-              <ListItem button component={RouterLink} key={'About'} to={"/about"}>
-                <ListItemText primary={'About'} />
-              </ListItem>
-              <ListItem button component={RouterLink} key={'License'} to={"/license"}>
-                <ListItemText primary={'License'} />
-              </ListItem>
-            </List>
-          </div>
-        </Drawer>
+          <Drawer anchor='left' open={drawerToggle} onClose={toggleDrawer(false)}>
+            <div
+              className={classes.list}
+              role="presentation"
+              onClick={toggleDrawer(false)}
+              onKeyDown={toggleDrawer(false)}
+            >
+              <List>
+                <ListItem button component={RouterLink} key={'Home'} to={"/"}>
+                  <ListItemText primary={'Home'} />
+                </ListItem>
+                <ListItem button component={RouterLink} key={'Gallery'} to={"/gallery"}>
+                  <ListItemText primary={'Gallery'} />
+                </ListItem>
+                <ListItem button component={RouterLink} key={'Search'} to={"/search"}>
+                  <ListItemText primary={'Search'} />
+                </ListItem>
+                <ListItem button component={RouterLink} key={'About'} to={"/about"}>
+                  <ListItemText primary={'About'} />
+                </ListItem>
+                <ListItem button component={RouterLink} key={'License'} to={"/license"}>
+                  <ListItemText primary={'License'} />
+                </ListItem>
+              </List>
+            </div>
+          </Drawer>
 
-        <Typography variant="h6" className={classes.title}>
-          Bitshares NFT viewer
-        </Typography>
-        <Button style={{'margin': '5px', 'float': 'right'}} size="small" variant="contained" onClick={() => { colour === 'dark' ? setColour('light') : setColour('dark') }}>
-          {colour === 'dark' ? <NightsStayIcon /> : <Brightness5Icon />}
-        </Button>
-      </Toolbar>
-    </AppBar>
+          <Typography variant="h6" color="inherit" className={classes.title}>
+            Bitshares NFT viewer
+          </Typography>
+          <Button style={{'margin': '5px', 'float': 'right'}} size="small" variant="contained" onClick={() => { colour === 'dark' ? setColour('light') : setColour('dark') }}>
+            {colour === 'dark' ? <NightsStayIcon /> : <Brightness5Icon />}
+          </Button>
+        </Toolbar>
+      </AppBar>
   );
 }
