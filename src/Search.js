@@ -1,22 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import React, {useState} from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-
-import Button from '@material-ui/core/Button';
-import Popover from '@material-ui/core/Popover';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import Fuse from 'fuse.js'
+import Fuse from 'fuse.js';
 
-const { useIdleQueryHook } = require("./reactQuery");
-const queryClient = new QueryClient();
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -37,10 +31,8 @@ function ListItemLink(props) {
 
 function SearchPanel (properties) {
 
-  const [searchValue, setSearchValue] = useState();
   const [overlay, setOverlay] = useState();
   const classes = useStyles();
-  const op = useRef(null);
 
   const searchData = properties && properties.art ? properties.art : [];
   if (!searchData || !searchData.length) {
@@ -48,12 +40,10 @@ function SearchPanel (properties) {
   }
 
   const eraseSearch = (event) => {
-    setSearchValue();
     setOverlay();
   };
 
   const updateSearchValue = (event) => {
-    setSearchValue(event.target.value);
     setOverlay();
 
     const fuse = new Fuse(
@@ -66,7 +56,6 @@ function SearchPanel (properties) {
 
     const result = fuse.search(event.target.value);
     if (result && result.length > 0) {
-      console.log(result)
       setOverlay(
         result.slice(0,5).map(crypto => {
           if (crypto.item && crypto.item.id) {
@@ -75,8 +64,10 @@ function SearchPanel (properties) {
                 <ListItemText primary={`${crypto.item.id}: ${crypto.item.name}`} />
               </ListItemLink>
             )
+          } else {
+            return undefined;
           }
-        })
+        }).filter(x => x)
       );
     } else {
       eraseSearch(event);
@@ -95,7 +86,7 @@ function SearchPanel (properties) {
             Search for NFT
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Either enter the id (1.3.x) or name of the NFT you wish to find 
+            Either enter the id (1.3.x) or name of the NFT you wish to find
           </Typography>
           <TextField
             key="searchInput"

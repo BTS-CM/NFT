@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import React, {useState} from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+import { Link } from "react-router-dom";
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 
@@ -22,7 +23,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   LinkedinShareButton,
   TwitterShareButton,
-  OKShareButton,
   TelegramShareButton,
   FacebookShareButton,
   WhatsappShareButton,
@@ -40,7 +40,6 @@ import {
   FacebookIcon,
   TwitterIcon,
   LinkedinIcon,
-  OKIcon,
   TelegramIcon,
   WhatsappIcon,
   RedditIcon,
@@ -56,58 +55,14 @@ import {
   HatenaIcon,
 } from "react-share";
 
-import {Apis} from "bitsharesjs-ws";
-const axios = require("axios");
 const { TabPanel, a11yProps } = require("./tabs");
 const { useQueryHook } = require("./reactQuery");
 
-function getImage(nft_object) {
-  let image;
-  let imgURL;
-  let dimensions;
-  if (nft_object.media_png || nft_object.image_png) {
-    image = nft_object.media_png || nft_object.image_png || undefined;
-    imgURL = image
-              ? "data:image/png;base64," + image
-              : undefined;
-  } else if (nft_object.media_gif || nft_object.media_GIF || nft_object.image_GIF || nft_object.image_gif) {
-    image = nft_object.media_gif || nft_object.media_GIF || nft_object.image_GIF || nft_object.image_gif || undefined;
-    imgURL = image
-              ? "data:image/gif;base64," + image
-              : undefined;
-  } else if (nft_object.media_jpeg || nft_object.image_jpeg) {
-    image = nft_object.media_jpeg || nft_object.image_jpeg || undefined;
-    imgURL = image
-              ? "data:image/jpeg;base64," + image
-              : undefined;
-  }
-
-  return {
-    image: image,
-    imgURL: imgURL
-  }
-}
-
-function getPngDimensions(base64) {
-  const header = atob(base64.slice(0, 50)).slice(16,24)
-  const uint8 = Uint8Array.from(header, c => c.charCodeAt(0))
-  const dataView = new DataView(uint8.buffer)
-
-  return {
-    width: dataView.getInt32(0),
-    height: dataView.getInt32(4),
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    maxWidth: '100%',
-    maxHeight: '100%'
-  }
-}
+const { getImage, getPngDimensions } = require("./images");
 
 const queryClient = new QueryClient();
 
 function DisplayedNFT (properties) {
-  let Apis = properties.apis;
-
   let dataProps = properties.data;
   let id = dataProps.id;
   let issuer = dataProps.issuer;
@@ -248,7 +203,7 @@ function DisplayedNFT (properties) {
 
   const disabledPermissionTips = {
     charge_market_fee : "No market fees can be charged for this asset; only BTS fees will be required.",
-    white_list : "There is no approved list of markets for this asset. Feel free to trade it for anything on the Bitshares DEX.",
+    white_list : "There is no approved list of markets for this asset. Feel free to trade it for anything on the Bitshares decentralized exchange.",
     override_authority : "The asset issuer is unable to transfer this NFT back to themselves.",
     transfer_restricted : "This asset's transfers are unrestricted.",
     disable_force_settle: "This asset cannot be force settled.",
@@ -284,7 +239,7 @@ function DisplayedNFT (properties) {
 
   const tagChips = tags
     ? tags.map((tag) => {
-      <Chip
+      return <Chip
         className={classes.chip}
         label={tag}
        />
@@ -297,7 +252,7 @@ function DisplayedNFT (properties) {
     <Grid item xs={12} style={{'paddingBottom': '25px'}} key={symbol + "NFT"}>
       <Paper className={classes.paper} id={id}>
         <Typography gutterBottom variant="h4" component="h1">
-          "<a href={`/nft/${symbol}`}  className={classes.a}>{short_name}</a>" by {artist}
+          "<Link to={`/nft/${symbol}`} className={classes.a}>{short_name}</Link>" by {artist}
         </Typography>
         {
           imgURL
@@ -330,7 +285,8 @@ function DisplayedNFT (properties) {
             <Tab label="JSON Data" {...a11yProps(5)} />
           </Tabs>
         </AppBar>
-        <TabPanel value={value} index={0}>
+
+        <TabPanel value={value} index={0} id="NFT">
           <Typography variant="body1" gutterBottom>
             <b>Attestation</b>: "{attestation}"
           </Typography>
@@ -341,7 +297,8 @@ function DisplayedNFT (properties) {
             <b>Acknowledgments</b>: "{acknowledgments ? acknowledgments : 'N/A'}"
           </Typography>
         </TabPanel>
-        <TabPanel value={value} index={1}>
+
+        <TabPanel value={value} index={1} id="Asset">
           <Chip className={classes.chip} label={`Asset name: ${symbol ? symbol : '???'}`} />
           <Chip className={classes.chip} label={`Current owner: ${nftHolder && nftHolder.length ? nftHolder[0].name : '???'}`} />
           <Chip className={classes.chip} label={`Quantity issued: ${current_supply ? current_supply : '???'}`} />
@@ -383,20 +340,21 @@ function DisplayedNFT (properties) {
             <Chip className={classes.chip} color={issuerName && issuerName === 'null-account' ? 'primary' : 'secondary'} label={`Asset issuer: ${issuerName}`} />
           </Tooltip>
         </TabPanel>
-        <TabPanel value={value} index={2}>
+
+        <TabPanel value={value} index={2} id="Tags">
           {
             tagChips && tagChips.length
               ? tagChips
-              : 'No topic/interest tags.'
+              : <Typography variant="body1" gutterBottom>No topic/interest tags</Typography>
           }
           {
             nft_flags && nft_flags.length
               ? nft_flags
-              : 'No NFT tags.'
+              : <Typography variant="body1" gutterBottom>No NFT tags</Typography>
           }
-
         </TabPanel>
-        <TabPanel value={value} index={3}>
+
+        <TabPanel value={value} index={3} id="Share">
 
             <FacebookShareButton
               url={shareUrl}
@@ -530,21 +488,24 @@ function DisplayedNFT (properties) {
             </HatenaShareButton>
 
         </TabPanel>
-        <TabPanel value={value} index={4}>
+
+        <TabPanel value={value} index={4} id="Flags">
           {
             flagChips && flagChips.length
               ? flagChips
               : 'No flags are currently enabled.'
           }
         </TabPanel>
-        <TabPanel value={value} index={5}>
+
+        <TabPanel value={value} index={5} id="Permissions">
           {
             permissionChips && permissionChips.length
               ? permissionChips
               : 'All permissions have been disabled.'
           }
         </TabPanel>
-        <TabPanel value={value} index={6}>
+
+        <TabPanel value={value} index={6} id="Signature">
           <Typography variant="body1" gutterBottom>
             <b>Signature</b>
           </Typography>
@@ -558,7 +519,8 @@ function DisplayedNFT (properties) {
           </Typography>
           <TextareaAutosize aria-label={"password_multihash"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={password_multihash} />
         </TabPanel>
-        <TabPanel value={value} index={7}>
+
+        <TabPanel value={value} index={7} id="License">
           <Typography variant="body1" gutterBottom>
             <b>License: </b>
             {
@@ -577,10 +539,11 @@ function DisplayedNFT (properties) {
           </Typography>
 
         </TabPanel>
-        <TabPanel value={value} index={8}>
+
+        <TabPanel value={value} index={8} id="Market">
 
           <Typography variant="body1" gutterBottom>
-            The NFT titled "{title}" ({symbol}) can be traded/transfered on the Bitshares DEX
+            The NFT titled "{title}" ({symbol}) can be traded/transfered on the Bitshares decentralized exchange
           </Typography>
 
           <a href={`https://wallet.bitshares.org/#/market/${symbol}_${market ? market : 'BTS'}`}>
@@ -589,24 +552,24 @@ function DisplayedNFT (properties) {
           <a href={`https://ex.xbts.io/market/${symbol}_${market ? market : 'BTS'}`}>
             <Button className={classes.button} variant="contained">XBTS.io</Button>
           </a>
+          <a href={`https://www.gdex.io/market/${symbol}_${market ? market : 'BTS'}`}>
+            <Button className={classes.button} variant="contained">GDEX.io</Button>
+          </a>
           <Tooltip
             TransitionComponent={Zoom}
             disableFocusListener
             title={`Within the desktop app search for the UIA "${symbol}"`}
           >
             <a href={`https://github.com/bitshares/bitshares-ui/releases`}>
-              <Button className={classes.button} variant="contained">Desktop apps</Button>
+              <Button className={classes.button} variant="contained">Desktop app</Button>
             </a>
           </Tooltip>
 
         </TabPanel>
-        <TabPanel value={value} index={9}>
+
+        <TabPanel value={value} index={9} id="JSON">
           <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={esDetails ? JSON.stringify(esDetails) : 'N/A'} />
         </TabPanel>
-
-
-
-
       </Paper>
     </Grid>
   );

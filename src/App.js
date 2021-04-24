@@ -1,49 +1,23 @@
 import './App.css';
 
-import React, {useEffect, useState} from 'react';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import React, {useState} from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query'
 
-import {Apis} from "bitsharesjs-ws";
 import 'fontsource-roboto';
 
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link as RouterLink,
-  useParams
+  Route
 } from "react-router-dom";
-
-import Link from '@material-ui/core/Link';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
-
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Brightness5Icon from '@material-ui/icons/Brightness5';
-import NightsStayIcon from '@material-ui/icons/NightsStay';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-
-import Toolbar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import Search from "./Search";
 import About from "./About";
@@ -54,7 +28,6 @@ import MainPage from "./MainPage";
 import Gallery from "./Gallery";
 
 const art = require("./art.json");
-const { TabPanel, a11yProps } = require("./tabs")
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +58,6 @@ export default function App() {
   const classes = useStyles();
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [colour, setColour] = useState(prefersDarkMode ? 'dark' : 'light')
-  const [value, setValue] = useState(0);
 
   const theme = React.useMemo(
     () =>
@@ -118,7 +90,7 @@ export default function App() {
                   </Route>
 
                   <Route path="/nft/:id">
-                    <Grid container style={{'maxWidth': '100%'}} key="singleNFT">
+                    <Grid container style={{'maxWidth': '100%'}} key="individualNFT">
                       <QueryClientProvider client={queryClient}>
                         <IndividualNFT />
                       </QueryClientProvider>
