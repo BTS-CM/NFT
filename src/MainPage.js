@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import RecentNFTs from "./RecentNFTs";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
   },
   pos: {
     marginBottom: 12,
+  },
+  a: {
+    color: theme.palette.text.secondary,
+    textDecoration: 'none'
   },
 }));
 
@@ -119,7 +124,7 @@ export default function MainPage(properties) {
       <Card className={classes.left}>
         <CardContent>
           <Typography variant="h6" color="textSecondary" gutterBottom>
-            Quantity of NFT
+            Quantity of NFT (<Link to="/gallery" className={classes.a}>View gallery</Link>)
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
             {art.length}
