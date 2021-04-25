@@ -275,14 +275,14 @@ function DisplayedNFT (properties) {
           >
             <Tab label="NFT" {...a11yProps(0)} />
             <Tab label="Asset" {...a11yProps(1)} />
-            <Tab label="Tags" {...a11yProps(6)} />
-            <Tab label="Share" {...a11yProps(8)} />
-            <Tab label="Flags" {...a11yProps(2)} />
-            <Tab label="Permissions" {...a11yProps(3)} />
-            <Tab label="Signature" {...a11yProps(4)} />
-            <Tab label="License" {...a11yProps(7)} />
-            <Tab label="Where to buy" {...a11yProps(9)} />
-            <Tab label="JSON Data" {...a11yProps(5)} />
+            <Tab label="Tags" {...a11yProps(2)} />
+            <Tab label="Share" {...a11yProps(3)} />
+            <Tab label="Where to buy" {...a11yProps(4)} />
+            <Tab label="Flags" {...a11yProps(5)} />
+            <Tab label="Permissions" {...a11yProps(6)} />
+            <Tab label="Signature" {...a11yProps(7)} />
+            <Tab label="License" {...a11yProps(8)} />
+            <Tab label="JSON Data" {...a11yProps(9)} />
           </Tabs>
         </AppBar>
 
@@ -489,58 +489,7 @@ function DisplayedNFT (properties) {
 
         </TabPanel>
 
-        <TabPanel value={value} index={4} id="Flags">
-          {
-            flagChips && flagChips.length
-              ? flagChips
-              : 'No flags are currently enabled.'
-          }
-        </TabPanel>
-
-        <TabPanel value={value} index={5} id="Permissions">
-          {
-            permissionChips && permissionChips.length
-              ? permissionChips
-              : 'All permissions have been disabled.'
-          }
-        </TabPanel>
-
-        <TabPanel value={value} index={6} id="Signature">
-          <Typography variant="body1" gutterBottom>
-            <b>Signature</b>
-          </Typography>
-          <TextareaAutosize aria-label={"signature"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={nft_signature ? nft_signature : 'N/A'} />
-          <Typography variant="body1" gutterBottom>
-            <b>Signature pubkey/address</b>
-          </Typography>
-          <TextareaAutosize aria-label={"sig_pubkey_or_address"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={sig_pubkey_or_address} />
-          <Typography variant="body1" gutterBottom>
-            <b>Password multihash</b>
-          </Typography>
-          <TextareaAutosize aria-label={"password_multihash"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={password_multihash} />
-        </TabPanel>
-
-        <TabPanel value={value} index={7} id="License">
-          <Typography variant="body1" gutterBottom>
-            <b>License: </b>
-            {
-              license
-                ? license
-                : 'The license under which this NFT has been released has not been provied.'
-            }
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <b>Holder license: </b>
-            {
-              holder_license
-                ? holder_license
-                : 'Holder license information has not been provided.'
-            }
-          </Typography>
-
-        </TabPanel>
-
-        <TabPanel value={value} index={8} id="Market">
+        <TabPanel value={value} index={4} id="Market">
 
           <Typography variant="body1" gutterBottom>
             The NFT titled "{title}" ({symbol}) can be traded/transfered on the Bitshares decentralized exchange
@@ -564,6 +513,57 @@ function DisplayedNFT (properties) {
               <Button className={classes.button} variant="contained">Desktop app</Button>
             </a>
           </Tooltip>
+
+        </TabPanel>
+
+        <TabPanel value={value} index={5} id="Flags">
+          {
+            flagChips && flagChips.length
+              ? flagChips
+              : 'No flags are currently enabled.'
+          }
+        </TabPanel>
+
+        <TabPanel value={value} index={6} id="Permissions">
+          {
+            permissionChips && permissionChips.length
+              ? permissionChips
+              : 'All permissions have been disabled.'
+          }
+        </TabPanel>
+
+        <TabPanel value={value} index={7} id="Signature">
+          <Typography variant="body1" gutterBottom>
+            <b>Signature</b>
+          </Typography>
+          <TextareaAutosize aria-label={"signature"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={nft_signature ? nft_signature : 'N/A'} />
+          <Typography variant="body1" gutterBottom>
+            <b>Signature pubkey/address</b>
+          </Typography>
+          <TextareaAutosize aria-label={"sig_pubkey_or_address"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={sig_pubkey_or_address} />
+          <Typography variant="body1" gutterBottom>
+            <b>Password multihash</b>
+          </Typography>
+          <TextareaAutosize aria-label={"password_multihash"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={password_multihash} />
+        </TabPanel>
+
+        <TabPanel value={value} index={8} id="License">
+          <Typography variant="body1" gutterBottom>
+            <b>License: </b>
+            {
+              license
+                ? license
+                : 'The license under which this NFT has been released has not been provied.'
+            }
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <b>Holder license: </b>
+            {
+              holder_license
+                ? holder_license
+                : 'Holder license information has not been provided.'
+            }
+          </Typography>
 
         </TabPanel>
 
