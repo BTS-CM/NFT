@@ -2,26 +2,31 @@ function getImage(nft_object) {
   let image;
   let imgURL;
   let dimensions;
+  let fileType;
   if (nft_object.media_png || nft_object.image_png) {
     image = nft_object.media_png || nft_object.image_png || undefined;
     imgURL = image
               ? "data:image/png;base64," + image
               : undefined;
+    fileType = "png";
   } else if (nft_object.media_gif || nft_object.media_GIF || nft_object.image_GIF || nft_object.image_gif) {
     image = nft_object.media_gif || nft_object.media_GIF || nft_object.image_GIF || nft_object.image_gif || undefined;
     imgURL = image
               ? "data:image/gif;base64," + image
               : undefined;
+    fileType = "gif";
   } else if (nft_object.media_jpeg || nft_object.image_jpeg) {
     image = nft_object.media_jpeg || nft_object.image_jpeg || undefined;
     imgURL = image
               ? "data:image/jpeg;base64," + image
               : undefined;
+    fileType = "jpeg";
   }
 
   return {
     image: image,
-    imgURL: imgURL
+    imgURL: imgURL,
+    fileType: fileType
   }
 }
 

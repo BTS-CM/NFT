@@ -26,6 +26,8 @@ import Nav from "./Nav";
 import IndividualNFT from "./IndividualNFT";
 import MainPage from "./MainPage";
 import Gallery from "./Gallery";
+import Viewers from "./Viewers";
+import List from "./List";
 
 const art = require("./art.json");
 
@@ -103,6 +105,12 @@ export default function App() {
                     </Grid>
                   </Route>
 
+                  <Route path="/viewers">
+                    <Grid container style={{'maxWidth': '100%'}} key="index">
+                      <Viewers />
+                    </Grid>
+                  </Route>
+
                   <Route path="/license">
                     <Grid container style={{'maxWidth': '100%'}} key="index">
                       <License />
@@ -113,6 +121,14 @@ export default function App() {
                     <Grid container style={{'maxWidth': '100%'}} key="index">
                       <QueryClientProvider client={queryClient}>
                         <Gallery art={art} />
+                      </QueryClientProvider>
+                    </Grid>
+                  </Route>
+
+                  <Route path="/listings">
+                    <Grid container style={{'maxWidth': '100%'}} key="index">
+                      <QueryClientProvider client={queryClient}>
+                        <List art={art} />
                       </QueryClientProvider>
                     </Grid>
                   </Route>

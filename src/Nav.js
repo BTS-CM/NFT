@@ -70,6 +70,9 @@ export default function Nav(properties) {
                 <ListItem button component={RouterLink} key={'Gallery'} to={"/gallery"}>
                   <ListItemText primary={'Gallery'} />
                 </ListItem>
+                <ListItem button component={RouterLink} key={'Listings'} to={"/listings"}>
+                  <ListItemText primary={'Listings'} />
+                </ListItem>
                 <ListItem button component={RouterLink} key={'Search'} to={"/search"}>
                   <ListItemText primary={'Search'} />
                 </ListItem>
@@ -78,6 +81,9 @@ export default function Nav(properties) {
                 </ListItem>
                 <ListItem button component={RouterLink} key={'License'} to={"/license"}>
                   <ListItemText primary={'License'} />
+                </ListItem>
+                <ListItem button component={RouterLink} key={'Other Viewers'} to={"/viewers"}>
+                  <ListItemText primary={'Other viewers'} />
                 </ListItem>
               </List>
             </div>

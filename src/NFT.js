@@ -153,7 +153,9 @@ function DisplayedNFT (properties) {
       margin: theme.spacing(0.25)
     },
     //media: image ? getPngDimensions(image) : {},
-    media: {},
+    media: {
+      maxWidth: '100%'
+    },
     root: {
       textAlign: 'center'
     },
