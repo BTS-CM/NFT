@@ -122,9 +122,6 @@ export default function OBJT(properties) {
 
   const loader = new OBJLoader();
 
-  loader.parse('');
-
-
   var renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );

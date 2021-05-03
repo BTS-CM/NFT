@@ -14,6 +14,4 @@ i18n
     }
   });
 
-console.log(i18n.t('mainpage:stat1.header'))
-
 export default i18n;

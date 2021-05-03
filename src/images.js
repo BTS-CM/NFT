@@ -20,8 +20,8 @@ function getImage(nft_object) {
               ? "data:image/jpeg;base64," + image
               : undefined;
     fileType = "jpeg";
-  } else if (nft_object.image_objt) {
-    image = nft_object.image_objt;
+  } else if (nft_object.media_json) {
+    image = nft_object.media_json;
     fileType = "objt";
   }
 

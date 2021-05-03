@@ -193,35 +193,6 @@ function DisplayedNFT (properties) {
       ).filter(x => x)
     : undefined;
 
-  /*
-  const enabledPermissionTips = {
-    charge_market_fee : "The asset issuer can enable market fees.",
-    white_list : "The asset issuer can create a list of approved markets",
-    override_authority : "The asset issuer can transfer this NFT back to themselves.",
-    transfer_restricted : "This asset may only be transferred to/from the issuer or market orders",
-    disable_force_settle: "Users may request force-settlement of this market-issued asset.",
-    global_settle: "The issuer of this market-issued asset may globally settle the asset",
-    disable_confidential: "The issuer of this asset can disable stealth transactions.",
-    witness_fed_asset: "This market-issued asset can have its price feeds supplied by Bitshares witnesses.",
-    committee_fed_asset: "This market-issued asset can have its price feeds supplied by Bitshares committee members.",
-  };
-
-  const disabledPermissionTips = {
-    charge_market_fee : "No market fees can be charged for this asset; only BTS fees will be required.",
-    white_list : "There is no approved list of markets for this asset. Feel free to trade it for anything on the Bitshares decentralized exchange.",
-    override_authority : "The asset issuer is unable to transfer this NFT back to themselves.",
-    transfer_restricted : "This asset's transfers are unrestricted.",
-    disable_force_settle: "This asset cannot be force settled.",
-    global_settle: "This asset cannot be globally settled.",
-    disable_confidential: "Confidential transactions of this asset are permanently possible.",
-    witness_fed_asset: "The witnesses cannot feed a price for this asset.",
-    committee_fed_asset: "The committee cannot feed a price for this asset.",
-  };
-
-    ? enabledPermissionTips[permission]
-    : disabledPermissionTips[permission]
-  */
-
   const permissionChips = permissions
     ? Object.keys(permissions).map(
         (permission) => {
@@ -251,6 +222,15 @@ function DisplayedNFT (properties) {
       return <Chip
         className={classes.chip}
         label={tag}
+       />
+      })
+    : undefined;
+
+  const nftFlagChips = nft_flags
+    ? nft_flags.map((flag) => {
+      return <Chip
+        className={classes.chip}
+        label={flag}
        />
       })
     : undefined;
@@ -356,9 +336,10 @@ function DisplayedNFT (properties) {
               ? tagChips
               : <Typography variant="body1" gutterBottom>{i18n.t('nft:tags.no_tags')}</Typography>
           }
+          <br/>
           {
-            nft_flags && nft_flags.length
-              ? nft_flags
+            nftFlagChips && nftFlagChips.length
+              ? nftFlagChips
               : <Typography variant="body1" gutterBottom>{i18n.t('nft:tags.no_nft_tags')}</Typography>
           }
         </TabPanel>
