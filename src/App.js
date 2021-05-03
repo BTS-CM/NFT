@@ -29,7 +29,13 @@ import Gallery from "./Gallery";
 import Viewers from "./Viewers";
 import List from "./List";
 
-const art = require("./art.json");
+const artJSON = require("./art.json");
+const config = require("./config.json");
+const environment = config.environment;
+const art = environment === "staging"
+              ? artJSON.staging
+              : artJSON.production;
+
 
 const useStyles = makeStyles((theme) => ({
   root: {

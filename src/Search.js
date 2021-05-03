@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -33,6 +34,7 @@ function SearchPanel (properties) {
 
   const [overlay, setOverlay] = useState();
   const classes = useStyles();
+  const { i18n } = useTranslation();
 
   const searchData = properties && properties.art ? properties.art : [];
   if (!searchData || !searchData.length) {
@@ -74,19 +76,14 @@ function SearchPanel (properties) {
     }
   };
 
-  /*
-    <form className={classes.root} noValidate autoComplete="off">
-    </form>
-  */
-
   return (
     <Grid item xs={12} key={"Search Window"}>
       <Paper className={classes.paper} style={{'padding': '20px'}}>
           <Typography gutterBottom variant="h4" component="h1">
-            Search for NFT
+            {i18n.t('search:header')}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Either enter the id (1.3.x) or name of the NFT you wish to find
+            {i18n.t('search:body')}
           </Typography>
           <TextField
             key="searchInput"

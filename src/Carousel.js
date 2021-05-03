@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { Apis } from "bitsharesjs-ws";
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next';
+import { Link } from "react-router-dom";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-
-import { Link } from "react-router-dom";
-
-import {
-  Link as RouterLink,
-} from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -39,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CarouselElement(properties) {
   const classes = useStyles();
+  const { i18n } = useTranslation();
   let nfts = properties && properties.nfts ? properties.nfts : [];
 
   let art = properties.art;
@@ -67,7 +64,7 @@ export default function CarouselElement(properties) {
       return <div key={nft.id + "_featured_div"}>
                 <Link to={`/nft/${symbol}`}>
                   <img src={imgURL}/>
-                  <Button className={classes.button} variant="contained">"{title}" by {artist}</Button>
+                  <Button className={classes.button} variant="contained">"{title}"{i18n.t('carousel:by')}{artist}</Button>
                 </Link>
              </div>;
     }).filter(x => x)

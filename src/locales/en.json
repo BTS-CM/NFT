@@ -1,0 +1,176 @@
+{
+  "viewers": {
+    "nft": {
+      "header": "NFT viewers",
+      "body": "Check out these trusted Bitshares NFT viewers!"
+    },
+    "blockchain": {
+      "header": "Blockchain explorers",
+      "body": "Verify NFT info and discover NFT trading rates"
+    }
+  },
+  "about": {
+    "p1": "Bitshares was the first DPoS blockchain technology with self-governance, 3 seconds processing time and in-built decentralized financial platform. Combining ethics, responsibility, innovations, fairness, knowledge and 6 years of experience to manage a safe, stable and scalable ecosystem. ",
+    "a1": "Read more about Bitshares!",
+    "p2": "Non-Fungible Tokens (NFTs) can easily be issued by anyone on the Bitshares blockchain by following the ",
+    "a2": "Bitshares NFT Specification",
+    "p3": " Feel free to fork this NFT viewer for your own Bitshares based NFT gallery.",
+    "p4": "Fees on the Bitshares blockchain are ",
+    "a3": "considerably lower than competitor platforms",
+    "p5": "These fees can be further reduced by purchasing a life-time membership as well as issuing sub-assets like 'gallery_name.nft_name'"
+  },
+  "carousel": {
+    "by": " by "
+  },
+  "license": {
+    "type": "MIT License",
+    "copyright": "Copyright (c) 2021 BTS Dev",
+    "permission": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the Software), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:",
+    "notice": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.",
+    "disclaimer": "THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+    "repo": "GitHub repository"
+  },
+  "mainpage": {
+    "featured": "Featured NFTs",
+    "new": "New NFTs",
+    "artists": {
+      "header": "Calling all artists!",
+      "body1": "Are you interested in monetizing your art?",
+      "body2": "Issue your NFT on the Bitshares decentralized exchange!"
+    },
+    "galleries": {
+      "header": "Prospective gallery owners",
+      "body1": "Interested in creating your own gallery?",
+      "body2a": "This gallery is ",
+      "a1": "fully open-source",
+      "body2b": " and ",
+      "a2": "MIT licensed"
+    },
+    "traders": {
+      "header": "Interested in trading NFT on the BTS DEX?",
+      "body1a": "Find out ",
+      "a1": "how to create a Bitshares account",
+      "body1b": " & get trading today!",
+      "a2": "Desktop app"
+    },
+    "benefits": {
+      "header": "Unsure about Bitshares?",
+      "body1": "Fees on the BTS DEX are ",
+      "a1": "competitively low",
+      "body2": "Its' environmental footprint ",
+      "a2": "is low",
+      "body3": "Its' ",
+      "a3": "performance is unrivaled",
+      "body4": " don't settle for less!"
+    },
+    "stat1": {
+      "header": "Listed NFTs"
+    },
+    "stat2": {
+      "header": "Featured artists"
+    },
+    "stat3": {
+      "header": "Years since Bitshares launch",
+      "years": " years"
+    }
+  },
+  "nav": {
+    "header": "Bitshares NFT viewer",
+    "link1": "Home",
+    "link2": "Gallery",
+    "link3": "Listings",
+    "link4": "Search",
+    "link5": "About",
+    "link6": "License",
+    "link7": "Other viewers"
+  },
+  "nft": {
+    "permissionTips": {
+      "enabled": {
+        "charge_market_fee" : "The asset issuer can enable market fees.",
+        "white_list" : "The asset issuer can create a list of approved markets",
+        "override_authority" : "The asset issuer can transfer this NFT back to themselves.",
+        "transfer_restricted" : "This asset may only be transferred to/from the issuer or market orders",
+        "disable_force_settle": "Users may request force-settlement of this market-issued asset.",
+        "global_settle": "The issuer of this market-issued asset has the ability to globally settle the asset",
+        "disable_confidential": "The issuer of this asset can disable stealth transactions.",
+        "witness_fed_asset": "This market-issued asset can have its price feeds supplied by Bitshares witnesses.",
+        "committee_fed_asset": "This market-issued asset can have its price feeds supplied by Bitshares committee members."
+      },
+      "disabled": {
+        "charge_market_fee" : "No market fees can be charged for this asset; only BTS fees will be required.",
+        "white_list" : "There is no approved list of markets for this asset. Feel free to trade it for anything on the Bitshares decentralized exchange.",
+        "override_authority" : "The asset issuer is unable to transfer this NFT back to themselves.",
+        "transfer_restricted" : "This asset's transfers are unrestricted.",
+        "disable_force_settle": "This asset cannot be force settled.",
+        "global_settle": "This asset cannot be globally settled.",
+        "disable_confidential": "Confidential transactions of this asset are permanently possible.",
+        "witness_fed_asset": "The witnesses cannot feed a price for this asset.",
+        "committee_fed_asset": "The committee cannot feed a price for this asset."
+      }
+    },
+    "by": " by ",
+    "tabs": {
+      "nft": "NFT",
+      "asset": "Asset",
+      "tags": "Tags",
+      "share": "Share",
+      "buy": "Where to buy",
+      "flags": "Flags",
+      "permissions": "Permissions",
+      "signature": "Signature",
+      "license": "License",
+      "json": "JSON Data"
+    },
+    "nft": {
+      "attestation": "Attestation",
+      "narrative": "Narrative",
+      "acknowledgments": "Acknowledgments"
+    },
+    "asset": {
+      "name": "Asset name",
+      "owner": "Current owner",
+      "quantity": "Quantity issue",
+      "file_type": "File type",
+      "onchain": "This NFT is fully stored on the Bitshares blockchain!",
+      "offchain": "This NFT may not be stored fully on chain.",
+      "encoding": "File encoding",
+      "precision_good": "With a precision of 0, '{{short_name}}' is a non-fungible token!",
+      "precision_bad": "Due to not having a precision of 0, this is a fungible token.",
+      "precision": "Precision",
+      "asset_ownership_burned": "Asset ownership has been 'burned' by being sent to 'null-account'; this NFT's settings are now final.",
+      "asset_ownership_warning": "Warning: Asset ownership has not been transfered to 'null-account' yet; the settings and quantity issued could change after purchase.",
+      "issuer": "Asset issuer"
+    },
+    "tags": {
+      "no_tags": "No topic/interest tags",
+      "no_nft_tags": "No NFT tags"
+    },
+    "buy": {
+      "header": "The NFT titled '{{title}}' ({{symbol}}) can be traded/transfered on the Bitshares decentralized exchange",
+      "tooltip": "Within the desktop app search for the UIA '{{symbol}}'",
+      "button": "Desktop app"
+    },
+    "flags": {
+      "none": "No flags are currently enabled."
+    },
+    "permissions": {
+      "none": "All permissions have been disabled."
+    },
+    "signature": {
+      "header": "Signature",
+      "signature": "Signature pubkey/address",
+      "password": "Password multihash"
+    },
+    "license": {
+      "header1": "License",
+      "none1": "The license under which this NFT has been released has not been provied.",
+      "header2": "Holder license",
+      "none2": "Holder license information has not been provided."
+    }
+  },
+  "search": {
+    "header": "Search for NFT",
+    "body": "Either enter the name or ID for the NFT you wish to find"
+  }
+}

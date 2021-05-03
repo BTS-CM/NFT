@@ -1,26 +1,32 @@
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  a: {
+    color: theme.palette.text.secondary
   }
 }));
 
 export default function About(properties) {
   const classes = useStyles();
+  const { i18n } = useTranslation();
+
   return (
     <Paper className={classes.paper}>
       <p>
-        Bitshares was the first DPoS blockchain technology with self-governance, 3 seconds processing time and in-built decentralized financial platform. Combining ethics, responsibility, innovations, fairness, knowledge and 6 years of experience to manage a safe, stable and scalable ecosystem. <a href="https://bitshares.org">Read more about Bitshares!</a>
+        {i18n.t('about:p1')}<a className={classes.a} href="https://bitshares.org">{i18n.t('about:a1')}</a>
       </p>
       <p>
-        Non-Fungible Tokens (NFTs) can easily be issued by anyone on the Bitshares blockchain by following the <a href="https://github.com/Bit20-Creative-Group/BitShares-NFT-Specification">Bitshares NFT Specification</a>. Feel free to fork this NFT viewer for your own Bitshares based NFT gallery.
+        {i18n.t('about:p2')}<a className={classes.a} href="https://github.com/Bit20-Creative-Group/BitShares-NFT-Specification">{i18n.t('about:a2')}</a>.{i18n.t('about:p3')}
       </p>
       <p>
-        Fees on the Bitshares blockchain are <a href="https://news.bitshares.org/ethereum-vs-bitshares-sustainability-fees-comparison/">considerably lower than competitor platforms</a>. These fees can be further reduced by purchasing a life-time membership as well as issuing sub-assets like "gallery_name.nft_name".
+        {i18n.t('about:p4')}<a className={classes.a} href="https://news.bitshares.org/ethereum-vs-bitshares-sustainability-fees-comparison/">{i18n.t('about:a3')}</a>. {i18n.t('about:p5')}.
       </p>
     </Paper>
   );

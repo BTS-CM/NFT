@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import { useTranslation } from 'react-i18next';
 
 import {
   Link as RouterLink,
@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Nav(properties) {
   const classes = useStyles();
+  const { i18n } = useTranslation();
+
   let colour = properties.colour;
   let setColour = properties.setColour;
   const [drawerToggle, setDrawerToggle] = useState(false);
@@ -65,32 +67,32 @@ export default function Nav(properties) {
             >
               <List>
                 <ListItem button component={RouterLink} key={'Home'} to={"/"}>
-                  <ListItemText primary={'Home'} />
+                  <ListItemText primary={i18n.t('nav:link1')} />
                 </ListItem>
                 <ListItem button component={RouterLink} key={'Gallery'} to={"/gallery"}>
-                  <ListItemText primary={'Gallery'} />
+                  <ListItemText primary={i18n.t('nav:link2')} />
                 </ListItem>
                 <ListItem button component={RouterLink} key={'Listings'} to={"/listings"}>
-                  <ListItemText primary={'Listings'} />
+                  <ListItemText primary={i18n.t('nav:link3')} />
                 </ListItem>
                 <ListItem button component={RouterLink} key={'Search'} to={"/search"}>
-                  <ListItemText primary={'Search'} />
+                  <ListItemText primary={i18n.t('nav:link4')} />
                 </ListItem>
                 <ListItem button component={RouterLink} key={'About'} to={"/about"}>
-                  <ListItemText primary={'About'} />
+                  <ListItemText primary={i18n.t('nav:link5')} />
                 </ListItem>
                 <ListItem button component={RouterLink} key={'License'} to={"/license"}>
-                  <ListItemText primary={'License'} />
+                  <ListItemText primary={i18n.t('nav:link6')} />
                 </ListItem>
                 <ListItem button component={RouterLink} key={'Other Viewers'} to={"/viewers"}>
-                  <ListItemText primary={'Other viewers'} />
+                  <ListItemText primary={i18n.t('nav:link7')} />
                 </ListItem>
               </List>
             </div>
           </Drawer>
 
           <Typography variant="h6" color="inherit" className={classes.title}>
-            Bitshares NFT viewer
+            {i18n.t("nav:header")}
           </Typography>
           <Button style={{'margin': '5px', 'float': 'right'}} size="small" variant="contained" onClick={() => { colour === 'dark' ? setColour('light') : setColour('dark') }}>
             {colour === 'dark' ? <NightsStayIcon /> : <Brightness5Icon />}

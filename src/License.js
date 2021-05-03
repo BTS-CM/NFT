@@ -1,48 +1,43 @@
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  a: {
+    color: theme.palette.text.secondary
   }
 }));
 
 export default function License(properties) {
   const classes = useStyles();
+  const { i18n } = useTranslation();
+
   return (
     <Paper className={classes.paper}>
-      <p>
-        MIT License
-      </p>
-      <p>
-        Copyright (c) 2021 BTS Dev
-      </p>
-      <p>
-        Permission is hereby granted, free of charge, to any person obtaining a copy
-        of this software and associated documentation files (the "Software"), to deal
-        in the Software without restriction, including without limitation the rights
-        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        copies of the Software, and to permit persons to whom the Software is
-        furnished to do so, subject to the following conditions:
-      </p>
-      <p>
-        The above copyright notice and this permission notice shall be included in all
-        copies or substantial portions of the Software.
-      </p>
-      <p>
-        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-        SOFTWARE.
-      </p>
-      <p>
-        <a href="https://github.com/BTS-CM/NFT">GitHub repository</a>
-      </p>
+      <Typography variant="body1" gutterBottom>
+        {i18n.t('license:type')}
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        {i18n.t('license:copyright')}
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        {i18n.t('license:permission')}
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        {i18n.t('license:notice')}
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        {i18n.t('license:disclaimer')}
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        <a className={classes.a} href="https://github.com/BTS-CM/NFT">{i18n.t('license:repo')}</a>
+      </Typography>
     </Paper>
   );
 }

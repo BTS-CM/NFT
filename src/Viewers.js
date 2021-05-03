@@ -1,3 +1,6 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -18,14 +21,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Viewers(properties) {
   const classes = useStyles();
+  const { i18n } = useTranslation();
+
   return ([
     <Grid item xs={12} key={"Viewer grid"}>
       <Paper className={classes.paper}>
         <Typography gutterBottom variant="h5">
-          NFT viewers
+          {i18n.t('viewers:nft.header')}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Check out these trusted Bitshares NFT viewers!
+          {i18n.t('viewers:nft.body')}
         </Typography>
         <a href={`http://nft.iamredbar.com/`}>
           <Button size="small" className={classes.button} variant="contained">Art-o-Matic</Button>
@@ -38,10 +43,10 @@ export default function Viewers(properties) {
     <Grid item xs={12} key={"Viewer grid"}>
       <Paper className={classes.paper}>
         <Typography gutterBottom variant="h5">
-          Blockchain explorers
+          {i18n.t('viewers:blockchain.header')}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Verify NFT info and discover NFT trading rates
+          {i18n.t('viewers:blockchain.body')}
         </Typography>
         <a href={`https://wallet.bitshares.org/#/explorer/assets`}>
           <Button size="small" className={classes.button} variant="contained">Bitshares.org</Button>

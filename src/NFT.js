@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { useTranslation } from 'react-i18next';
 
 import { Link } from "react-router-dom";
 
@@ -19,6 +20,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import { makeStyles } from '@material-ui/core/styles';
+import OBJT from "./OBJT";
 
 import {
   LinkedinShareButton,
@@ -58,11 +60,12 @@ import {
 const { TabPanel, a11yProps } = require("./tabs");
 const { useQueryHook } = require("./reactQuery");
 
-const { getImage, getPngDimensions } = require("./images");
+const { getImage } = require("./images");
 
 const queryClient = new QueryClient();
 
 function DisplayedNFT (properties) {
+  const { i18n } = useTranslation();
   let dataProps = properties.data;
   let id = dataProps.id;
   let issuer = dataProps.issuer;
@@ -133,7 +136,7 @@ function DisplayedNFT (properties) {
   let narrative = nft_object.narrative ? nft_object.narrative : undefined;
   let encoding = nft_object.encoding ? nft_object.encoding : undefined;
 
-  let { image, imgURL } = getImage(nft_object); // retrieving best match media key
+  let { image, imgURL } = getImage(nft_object);
 
   // Optional and Proposed Keys:
   let tags = nft_object.tags ? nft_object.tags.split(",") : undefined;
@@ -152,7 +155,6 @@ function DisplayedNFT (properties) {
     chip: {
       margin: theme.spacing(0.25)
     },
-    //media: image ? getPngDimensions(image) : {},
     media: {
       maxWidth: '100%'
     },
@@ -191,6 +193,7 @@ function DisplayedNFT (properties) {
       ).filter(x => x)
     : undefined;
 
+  /*
   const enabledPermissionTips = {
     charge_market_fee : "The asset issuer can enable market fees.",
     white_list : "The asset issuer can create a list of approved markets",
@@ -215,6 +218,10 @@ function DisplayedNFT (properties) {
     committee_fed_asset: "The committee cannot feed a price for this asset.",
   };
 
+    ? enabledPermissionTips[permission]
+    : disabledPermissionTips[permission]
+  */
+
   const permissionChips = permissions
     ? Object.keys(permissions).map(
         (permission) => {
@@ -224,8 +231,8 @@ function DisplayedNFT (properties) {
                   disableFocusListener
                   title={
                     permissionValue === true || permissionValue === 'true'
-                      ? enabledPermissionTips[permission]
-                      : disabledPermissionTips[permission]
+                      ? i18n.t('nft:permissionTips.enabled.' + permission)
+                      : i18n.t('nft:permissionTips.disabled.' + permission)
                   }
                 >
                   <Chip
@@ -254,14 +261,14 @@ function DisplayedNFT (properties) {
     <Grid item xs={12} style={{'paddingBottom': '25px'}} key={symbol + "NFT"}>
       <Paper className={classes.paper} id={id}>
         <Typography gutterBottom variant="h4" component="h1">
-          "<Link to={`/nft/${symbol}`} className={classes.a}>{short_name}</Link>" by {artist}
+          "<Link to={`/nft/${symbol}`} className={classes.a}>{short_name}</Link>"{i18n.t('nft:by')}{artist}
         </Typography>
         {
           imgURL
             ? <a href={imgURL}>
                 <img src={imgURL} alt={short_name + " image"} className={classes.media} />
               </a>
-            : undefined
+            : <OBJT data={image} />
         }
         <Typography gutterBottom variant="h6" component="h4">
           {main}
@@ -273,49 +280,49 @@ function DisplayedNFT (properties) {
             variant="scrollable"
             scrollButtons="auto"
             onChange={handleChange}
-            aria-label="scrollable auto tabs example"
+            aria-label="scrollable nft tabs"
           >
-            <Tab label="NFT" {...a11yProps(0)} />
-            <Tab label="Asset" {...a11yProps(1)} />
-            <Tab label="Tags" {...a11yProps(2)} />
-            <Tab label="Share" {...a11yProps(3)} />
-            <Tab label="Where to buy" {...a11yProps(4)} />
-            <Tab label="Flags" {...a11yProps(5)} />
-            <Tab label="Permissions" {...a11yProps(6)} />
-            <Tab label="Signature" {...a11yProps(7)} />
-            <Tab label="License" {...a11yProps(8)} />
-            <Tab label="JSON Data" {...a11yProps(9)} />
+            <Tab label={i18n.t('nft:tabs.nft')} {...a11yProps(0)} />
+            <Tab label={i18n.t('nft:tabs.asset')} {...a11yProps(1)} />
+            <Tab label={i18n.t('nft:tabs.tags')} {...a11yProps(2)} />
+            <Tab label={i18n.t('nft:tabs.share')} {...a11yProps(3)} />
+            <Tab label={i18n.t('nft:tabs.buy')} {...a11yProps(4)} />
+            <Tab label={i18n.t('nft:tabs.flags')} {...a11yProps(5)} />
+            <Tab label={i18n.t('nft:tabs.permissions')} {...a11yProps(6)} />
+            <Tab label={i18n.t('nft:tabs.signature')} {...a11yProps(7)} />
+            <Tab label={i18n.t('nft:tabs.license')} {...a11yProps(8)} />
+            <Tab label={i18n.t('nft:tabs.json')} {...a11yProps(9)} />
           </Tabs>
         </AppBar>
 
         <TabPanel value={value} index={0} id="NFT">
           <Typography variant="body1" gutterBottom>
-            <b>Attestation</b>: "{attestation}"
+            <b>{i18n.t('nft:nft.attestation')}</b>: "{attestation}"
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <b>Narrative</b>: "{narrative}"
+            <b>{i18n.t('nft:nft.narrative')}</b>: "{narrative}"
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <b>Acknowledgments</b>: "{acknowledgments ? acknowledgments : 'N/A'}"
+            <b>{i18n.t('nft:nft.acknowledgments')}</b>: "{acknowledgments ? acknowledgments : 'N/A'}"
           </Typography>
         </TabPanel>
 
         <TabPanel value={value} index={1} id="Asset">
-          <Chip className={classes.chip} label={`Asset name: ${symbol ? symbol : '???'}`} />
-          <Chip className={classes.chip} label={`Current owner: ${nftHolder && nftHolder.length ? nftHolder[0].name : '???'}`} />
-          <Chip className={classes.chip} label={`Quantity issued: ${current_supply ? current_supply : '???'}`} />
-          <Chip className={classes.chip} label={`File type: ${type ? type : '???'}`} />
+          <Chip className={classes.chip} label={`${i18n.t('nft:asset.name')}: ${symbol ? symbol : '???'}`} />
+          <Chip className={classes.chip} label={`${i18n.t('nft:asset.owner')}: ${nftHolder && nftHolder.length ? nftHolder[0].name : '???'}`} />
+          <Chip className={classes.chip} label={`${i18n.t('nft:asset.quantity')}: ${current_supply ? current_supply : '???'}`} />
+          <Chip className={classes.chip} label={`${i18n.t('nft:asset.file_type')}: ${type ? type : '???'}`} />
 
           <Tooltip
             TransitionComponent={Zoom}
             disableFocusListener
             title={
               encoding === "base64"
-                ? `This NFT is fully stored on the Bitshares blockchain!`
-                : `This NFT may not be stored fully on chain.`
+                ? i18n.t('nft:asset.onchain')
+                : i18n.t('nft:asset.offchain')
               }
           >
-            <Chip className={classes.chip} label={`File encoding: ${encoding ? encoding : '???'}`} />
+            <Chip className={classes.chip} label={`${i18n.t('nft:asset.encoding')}: ${encoding ? encoding : '???'}`} />
           </Tooltip>
 
           <Tooltip
@@ -323,11 +330,11 @@ function DisplayedNFT (properties) {
             disableFocusListener
             title={
               precision === 0
-                ? `With a precision of 0, "${short_name}" is a non-fungible token!`
-                : `Due to not having a precision of 0, this is a fungible token.`
+                ? i18n.t('nft:asset.precision_good', {short_name: short_name})
+                : i18n.t('nft:asset.precision_bad')
               }
           >
-            <Chip className={classes.chip} label={`Precision: ${precision}`} />
+            <Chip className={classes.chip} label={`${i18n.t('nft:asset.precision')}: ${precision}`} />
           </Tooltip>
 
           <Tooltip
@@ -335,11 +342,11 @@ function DisplayedNFT (properties) {
             disableFocusListener
             title={
               issuerName && issuerName === 'null-account'
-                ? `Asset ownership has been "burned" by being sent to "null-account"; this NFT's settings are now final.`
-                : `Warning: Asset ownership has not been transfered to "null-account" yet; the settings and quantity issued could change after purchase.`
+                ? i18n.t('nft:asset.asset_ownership_burned')
+                : i18n.t('nft:asset.asset_ownership_warning')
             }
           >
-            <Chip className={classes.chip} color={issuerName && issuerName === 'null-account' ? 'primary' : 'secondary'} label={`Asset issuer: ${issuerName}`} />
+            <Chip className={classes.chip} color={issuerName && issuerName === 'null-account' ? 'primary' : 'secondary'} label={`${i18n.t('nft:asset.issuer')}: ${issuerName}`} />
           </Tooltip>
         </TabPanel>
 
@@ -347,12 +354,12 @@ function DisplayedNFT (properties) {
           {
             tagChips && tagChips.length
               ? tagChips
-              : <Typography variant="body1" gutterBottom>No topic/interest tags</Typography>
+              : <Typography variant="body1" gutterBottom>{i18n.t('nft:tags.no_tags')}</Typography>
           }
           {
             nft_flags && nft_flags.length
               ? nft_flags
-              : <Typography variant="body1" gutterBottom>No NFT tags</Typography>
+              : <Typography variant="body1" gutterBottom>{i18n.t('nft:tags.no_nft_tags')}</Typography>
           }
         </TabPanel>
 
@@ -494,7 +501,7 @@ function DisplayedNFT (properties) {
         <TabPanel value={value} index={4} id="Market">
 
           <Typography variant="body1" gutterBottom>
-            The NFT titled "{title}" ({symbol}) can be traded/transfered on the Bitshares decentralized exchange
+            {i18n.t('nft:buy.header', {title: title, symbol: symbol})}
           </Typography>
 
           <a href={`https://wallet.bitshares.org/#/market/${symbol}_${market ? market : 'BTS'}`}>
@@ -509,10 +516,10 @@ function DisplayedNFT (properties) {
           <Tooltip
             TransitionComponent={Zoom}
             disableFocusListener
-            title={`Within the desktop app search for the UIA "${symbol}"`}
+            title={i18n.t('nft:buy.tooltip', {symbol: symbol})}
           >
             <a href={`https://github.com/bitshares/bitshares-ui/releases`}>
-              <Button className={classes.button} variant="contained">Desktop app</Button>
+              <Button className={classes.button} variant="contained">{i18n.t('nft:buy.button')}</Button>
             </a>
           </Tooltip>
 
@@ -522,7 +529,7 @@ function DisplayedNFT (properties) {
           {
             flagChips && flagChips.length
               ? flagChips
-              : 'No flags are currently enabled.'
+              : i18n.t('nft:flags.none')
           }
         </TabPanel>
 
@@ -530,40 +537,40 @@ function DisplayedNFT (properties) {
           {
             permissionChips && permissionChips.length
               ? permissionChips
-              : 'All permissions have been disabled.'
+              : i18n.t('nft:permissions.none')
           }
         </TabPanel>
 
         <TabPanel value={value} index={7} id="Signature">
           <Typography variant="body1" gutterBottom>
-            <b>Signature</b>
+            <b>{i18n.t('nft:signature.header')}</b>
           </Typography>
           <TextareaAutosize aria-label={"signature"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={nft_signature ? nft_signature : 'N/A'} />
           <Typography variant="body1" gutterBottom>
-            <b>Signature pubkey/address</b>
+            <b>{i18n.t('nft:signature.signature')}</b>
           </Typography>
           <TextareaAutosize aria-label={"sig_pubkey_or_address"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={sig_pubkey_or_address} />
           <Typography variant="body1" gutterBottom>
-            <b>Password multihash</b>
+            <b>{i18n.t('nft:signature.password')}</b>
           </Typography>
           <TextareaAutosize aria-label={"password_multihash"} rowsMin={5} style={{'minWidth': '100%'}} defaultValue={password_multihash} />
         </TabPanel>
 
         <TabPanel value={value} index={8} id="License">
           <Typography variant="body1" gutterBottom>
-            <b>License: </b>
+            <b>{i18n.t('nft:license.header1')}: </b>
             {
               license
                 ? license
-                : 'The license under which this NFT has been released has not been provied.'
+                : i18n.t('nft:license.none1')
             }
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <b>Holder license: </b>
+            <b>{i18n.t('nft:license.header2')}: </b>
             {
               holder_license
                 ? holder_license
-                : 'Holder license information has not been provided.'
+                : i18n.t('nft:license.none2')
             }
           </Typography>
 

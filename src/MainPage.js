@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import { Apis } from "bitsharesjs-ws";
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -55,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     textDecoration: 'none'
   },
+  textLink: {
+    color: theme.palette.text.secondary
+  },
   button: {
     margin: theme.spacing(1)
   },
@@ -74,6 +78,7 @@ function diff_years(dt2, dt1) {
 export default function MainPage(properties) {
   const classes = useStyles();
   const art = properties && properties.art ? properties.art : [];
+  const { i18n } = useTranslation();
 
   let genesis = new Date(2013,6,2);
   let now = new Date();
@@ -94,7 +99,7 @@ export default function MainPage(properties) {
     <Grid item xs={12} sm={6} key={"Index featured NFT"}>
       <Paper className={classes.leftPaper}>
         <Typography gutterBottom variant="h5">
-          Featured NFTs
+          {i18n.t("mainpage:featured")}
         </Typography>
         <CarouselElement nfts={nfts} art={art} featured={true} {...properties} />
       </Paper>
@@ -102,7 +107,7 @@ export default function MainPage(properties) {
     <Grid item xs={12} sm={6} key={"Index recent NFT"}>
       <Paper className={classes.rightPaper}>
         <Typography gutterBottom variant="h5">
-          New NFTs
+          {i18n.t("mainpage:new")}
         </Typography>
         <CarouselElement nfts={nfts.slice(0,6)} art={art} featured={false} {...properties} />
       </Paper>
@@ -110,36 +115,36 @@ export default function MainPage(properties) {
     <Grid item xs={12} sm={6} key={"Index artist prompt"}>
       <Paper className={classes.leftPaper}>
         <Typography gutterBottom variant="h5">
-          Calling all artists!
+          {i18n.t("mainpage:artists.header")}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Are you interested in monetizing your art?
+          {i18n.t("mainpage:artists.body1")}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Issue your NFT on the Bitshares decentralized exchange!
+          {i18n.t("mainpage:artists.body2")}
         </Typography>
       </Paper>
     </Grid>,
     <Grid item xs={12} sm={6} key={"Index gallery prompt"}>
       <Paper className={classes.rightPaper}>
         <Typography gutterBottom variant="h5">
-          Prospective gallery owners
+          {i18n.t("mainpage:galleries.header")}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Interested in creating your own gallery?
+          {i18n.t("mainpage:galleries.body1")}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          This gallery is <a href="https://github.com/BTS-CM/NFT">fully open-source</a> and <a href="/license">MIT licensed</a>.
+          {i18n.t("mainpage:galleries.body2a")}<a className={classes.textLink} href="https://github.com/BTS-CM/NFT">{i18n.t("mainpage:galleries.a1")}</a>{i18n.t("mainpage:galleries.body2b")}<a className={classes.textLink} href="/license">{i18n.t("mainpage:galleries.a2")}</a>.
         </Typography>
       </Paper>
     </Grid>,
     <Grid item xs={12} sm={6} key={"Index trader prompt"}>
       <Paper className={classes.leftPaper}>
         <Typography gutterBottom variant="h5">
-          Interested in trading NFT on the BTS DEX?
+          {i18n.t("mainpage:traders.header")}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Find out <a href="https://how.bitshares.works/en/master/user_guide/create_account.html">how to create a Bitshares account</a> & get trading today!
+          {i18n.t("mainpage:traders.body1a")}<a className={classes.textLink} href="https://how.bitshares.works/en/master/user_guide/create_account.html">{i18n.t("mainpage:traders.a1")}</a>{i18n.t("mainpage:traders.body1b")}
         </Typography>
         <a href={`https://wallet.bitshares.org`}>
           <Button size="small" className={classes.button} variant="contained">Bitshares.org</Button>
@@ -151,32 +156,31 @@ export default function MainPage(properties) {
           <Button size="small" className={classes.button} variant="contained">GDEX.io</Button>
         </a>
         <a href={`https://github.com/bitshares/bitshares-ui/releases`}>
-          <Button size="small" className={classes.button} variant="contained">Desktop app</Button>
+          <Button size="small" className={classes.button} variant="contained">{i18n.t("mainpage:traders.a2")}</Button>
         </a>
       </Paper>
     </Grid>,
     <Grid item xs={12} sm={6} key={"Index unsure prompt"}>
       <Paper className={classes.rightPaper}>
         <Typography gutterBottom variant="h5">
-          Unsure about Bitshares?
+          {i18n.t("mainpage:benefits.header")}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Fees on the BTS DEX are <a href="https://news.bitshares.org/ethereum-vs-bitshares-sustainability-fees-comparison/">competitively low</a>.
+          {i18n.t("mainpage:benefits.body1")}<a className={classes.textLink} href="https://news.bitshares.org/ethereum-vs-bitshares-sustainability-fees-comparison/">{i18n.t("mainpage:benefits.a1")}</a>.
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Its' environmental footprint <a href="https://how.bitshares.works/en/master/technology/dpos.html">is low</a>.
+          {i18n.t("mainpage:benefits.body2")}<a className={classes.textLink} href="https://how.bitshares.works/en/master/technology/dpos.html">{i18n.t("mainpage:benefits.a2")}</a>.
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Its' <a href="https://how.bitshares.works/en/master/technology/bitshares_features.html#industrial-performance-and-scalability">performance is unrivaled</a>; don't settle for less!
+          {i18n.t("mainpage:benefits.body3")}<a className={classes.textLink} href="https://how.bitshares.works/en/master/technology/bitshares_features.html#industrial-performance-and-scalability">{i18n.t("mainpage:benefits.a3")}</a>;{i18n.t("mainpage:benefits.body4")}
         </Typography>
       </Paper>
     </Grid>,
-
     <Grid item xs={12} sm={4} key={"stats 1"}>
       <Card className={classes.stat}>
         <CardContent>
           <Typography variant="h6" color="textSecondary" gutterBottom>
-            Listed NFTs
+            {i18n.t("mainpage:stat1.header")}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
             {art.length}
@@ -184,11 +188,11 @@ export default function MainPage(properties) {
         </CardContent>
       </Card>
     </Grid>,
-    <Grid item xs={12} sm={4} key={"stats 1"}>
+    <Grid item xs={12} sm={4} key={"stats 2"}>
       <Card className={classes.stat}>
         <CardContent>
           <Typography variant="h6" color="textSecondary" gutterBottom>
-            Featured artists
+            {i18n.t("mainpage:stat2.header")}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
             1
@@ -196,15 +200,15 @@ export default function MainPage(properties) {
         </CardContent>
       </Card>
     </Grid>,
-    <Grid item xs={12} sm={4} key={"stats 1"}>
+    <Grid item xs={12} sm={4} key={"stats 3"}>
       <Card className={classes.stat}>
         <CardContent>
           <Typography variant="h6" color="textSecondary" gutterBottom>
-            Years since Bitshares launch
+            {i18n.t("mainpage:stat3.header")}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
             {
-              diff_years(genesis, now) + " years"
+              diff_years(genesis, now) + i18n.t("mainpage:stat3.years")
             }
           </Typography>
         </CardContent>

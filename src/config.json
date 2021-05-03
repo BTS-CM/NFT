@@ -1,0 +1,11 @@
+{
+  "environment": "staging",
+  "elastic": {
+    "staging": "",
+    "production": ""
+  },
+  "btsapi": {
+    "staging": "",
+    "production": ""
+  }
+}

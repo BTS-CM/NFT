@@ -3,6 +3,7 @@ import {Apis} from "bitsharesjs-ws";
 import { useQuery } from 'react-query'
 import NFT from "./NFT";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -14,19 +15,20 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 const { getImage } = require("./images");
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
   a: {
-    textDecoration: 'none'
-  }
-});
-
-
+    textDecoration: 'none',
+    color: theme.palette.text.secondary
+  },
+}));
 
 function ListContents(properties) {
   const classes = useStyles();
+  const { i18n } = useTranslation();
+  
   const art = properties && properties.art ? properties.art : [];
   const [nfts, setNfts] = useState([]);
   const { data, error } = useQuery('all', async () => {

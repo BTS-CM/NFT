@@ -1,7 +1,6 @@
 function getImage(nft_object) {
   let image;
   let imgURL;
-  let dimensions;
   let fileType;
   if (nft_object.media_png || nft_object.image_png) {
     image = nft_object.media_png || nft_object.image_png || undefined;
@@ -21,6 +20,9 @@ function getImage(nft_object) {
               ? "data:image/jpeg;base64," + image
               : undefined;
     fileType = "jpeg";
+  } else if (nft_object.image_objt) {
+    image = nft_object.image_objt;
+    fileType = "objt";
   }
 
   return {
