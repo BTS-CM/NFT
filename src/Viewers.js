@@ -35,6 +35,9 @@ export default function Viewers(properties) {
         <a href={`http://nft.iamredbar.com/`}>
           <Button size="small" className={classes.button} variant="contained">Art-o-Matic</Button>
         </a>
+        <a href={`https://artcasa.gallery/`}>
+          <Button size="small" className={classes.button} variant="contained">ArtCASA</Button>
+        </a>
         <a href={`https://alguienalli.github.io/`}>
           <Button size="small" className={classes.button} variant="contained">Alguien's Bitshares NFT Explorer</Button>
         </a>
