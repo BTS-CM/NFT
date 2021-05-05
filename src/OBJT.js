@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom'
 import { Canvas } from '@react-three/fiber'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useTexture, OrbitControls, Stars } from "@react-three/drei";
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette, SMAA } from '@react-three/postprocessing'
 
 function OBJ(props) {
   const pngString = props.png;
   const texture = useTexture(`data:image/png;base64,${pngString}`);
+  texture.anisotropy = 16;
+  //texture.minFilter = ;
 
   const objString = atob(props.obj);
   let obj_loader = new OBJLoader();
@@ -15,6 +18,7 @@ function OBJ(props) {
   obj.traverse((o) => {
     if (o.isMesh) {
       o.material.map = texture;
+      //o.material.side = ;
     }
   });
 
@@ -45,12 +49,17 @@ export default function OBJT(properties) {
                 radius={100} // Radius of the inner sphere (default=100)
                 depth={50} // Depth of area where stars should fit (default=50)
                 count={1000} // Amount of stars (default=5000)
-                factor={4} // Size factor (default=4)
+                factor={3} // Size factor (default=4)
                 saturation={0} // Saturation 0-1 (default=0)
                 fade
               />
               <ambientLight intensity={1} />
               <OBJ obj={media_obj} png={media_png} />
+              <EffectComposer multisampling={0}>
+                <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={500} />
+                <Vignette eskil={false} offset={0.1} darkness={0.75} />
+                <SMAA />
+              </EffectComposer>
               <OrbitControls autoRotate />
             </Suspense>
           </Canvas>);
