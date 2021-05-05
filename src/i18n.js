@@ -5,10 +5,11 @@ const en = require('./locales/en.json')
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
+    fallbackLng: 'en',
+    lng: "en",
     resources: {
       en: en
     },
-    lng: "en",
     interpolation: {
       escapeValue: false // react already safes from xss
     }

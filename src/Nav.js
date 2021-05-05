@@ -39,6 +39,8 @@ export default function Nav(properties) {
   const classes = useStyles();
   const { i18n } = useTranslation();
 
+  let environment = properties.environment;
+
   let colour = properties.colour;
   let setColour = properties.setColour;
   const [drawerToggle, setDrawerToggle] = useState(false);
@@ -92,7 +94,7 @@ export default function Nav(properties) {
           </Drawer>
 
           <Typography variant="h6" color="inherit" className={classes.title}>
-            {i18n.t("nav:header")}
+            {i18n.t("nav:header")} {environment === "staging" ? i18n.t("nav:staging") : undefined}
           </Typography>
           <Button style={{'margin': '5px', 'float': 'right'}} size="small" variant="contained" onClick={() => { colour === 'dark' ? setColour('light') : setColour('dark') }}>
             {colour === 'dark' ? <NightsStayIcon /> : <Brightness5Icon />}

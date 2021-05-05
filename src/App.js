@@ -86,7 +86,7 @@ export default function App() {
             <Grid container spacing={4}>
 
               <Grid item xs={12}>
-                <Nav colour={colour} setColour={setColour} />
+                <Nav colour={colour} environment={environment} setColour={setColour} />
               </Grid>
 
               <Grid item xs={12}>

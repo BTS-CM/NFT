@@ -1,9 +1,8 @@
 import React, { useRef, Suspense } from 'react'
-import ReactDOM from 'react-dom'
 import { Canvas } from '@react-three/fiber'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useTexture, OrbitControls, Stars } from "@react-three/drei";
-import { EffectComposer, DepthOfField, Bloom, Noise, Vignette, SMAA } from '@react-three/postprocessing'
+import { EffectComposer, Bloom, Vignette, SMAA } from '@react-three/postprocessing'
 import * as THREE from 'three';
 
 function OBJ(props) {
@@ -12,7 +11,6 @@ function OBJ(props) {
   texture.anisotropy = 16;
   texture.magFilter = THREE.NearestFilter;
   texture.minFilter = THREE.NearestFilter;
-  //texture.mapping = THREE.UVMapping;
 
   const objString = atob(props.obj);
   let obj_loader = new OBJLoader();
@@ -21,7 +19,6 @@ function OBJ(props) {
   obj.traverse((o) => {
     if (o.isMesh) {
       o.material.map = texture;
-      //o.material.side = ;
     }
   });
 
@@ -46,7 +43,16 @@ export default function OBJT(properties) {
     return null;
   }
 
-  return (<Canvas style={{"height": "500px", "backgroundColor": "black"}}>
+  // pixelRatio={window.devicePixelRatio}
+  // pixelRatio={window.devicePixelRatio ? window.devicePixelRatio : 1}
+  //let ratio = window.devicePixelRatio || 1;
+  // size={window.innerWidth, window.innerHeight}
+  return (<Canvas
+            style={{
+              "height": "500px",
+              "backgroundColor": "black"
+            }}
+          >
             <Suspense fallback={null}>
               <Stars
                 radius={100} // Radius of the inner sphere (default=100)
