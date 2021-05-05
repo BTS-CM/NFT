@@ -4,12 +4,15 @@ import { Canvas } from '@react-three/fiber'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useTexture, OrbitControls, Stars } from "@react-three/drei";
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette, SMAA } from '@react-three/postprocessing'
+import * as THREE from 'three';
 
 function OBJ(props) {
   const pngString = props.png;
   const texture = useTexture(`data:image/png;base64,${pngString}`);
   texture.anisotropy = 16;
-  //texture.minFilter = ;
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestFilter;
+  //texture.mapping = THREE.UVMapping;
 
   const objString = atob(props.obj);
   let obj_loader = new OBJLoader();
