@@ -1,0 +1,177 @@
+{
+  "about": {
+    "a1": "Læs mere om Bitshares!",
+    "a2": "Bitshares NFT-specifikation",
+    "a3": "betydeligt lavere end konkurrerende platforme",
+    "p1": "Bitshares var den første DPO'er blockchain-teknologi med selvstyring, 3 sekunders behandlingstid og indbygget decentraliseret finansiel platform. Kombination af etik, ansvar, innovationer, retfærdighed, viden og 6 års erfaring for at styre et sikkert, stabilt og skalerbart økosystem. ",
+    "p2": "Ikke-fungible tokens (NFT) kan nemt udstedes af alle på Bitshares blockchain ved at følge ",
+    "p3": " Du er velkommen til at gaffel denne NFT-fremviser til dit eget Bitshares baseret NFT-galleri.",
+    "p4": "Gebyrer på Bitshares blockchain er ",
+    "p5": "Disse gebyrer kan reduceres yderligere ved at købe et livstidsmedlemskab samt udstede underaktiver som“ gallery_name.nft_name“"
+  },
+  "carousel": {
+    "by": " Af "
+  },
+  "license": {
+    "copyright": "Ophavsret (c) 2021 BTS Dev",
+    "disclaimer": "SOFTWAREN LEVERES „SOM DEN ER“ UDEN GARANTI AF NOGEN ART, UDTRYKKELIG ELLER STILTIENDE, HERUNDER, MEN IKKE BEGRÆNSET TIL, GARANTIER FOR SALGBARHED, EGNETHED TIL ET BESTEMT FORMÅL OG IKKE-KRÆNKELSE. UNDER INGEN OMSTÆNDIGHEDER ER FORFATTERNE ELLER INDEHAVERNE AF OPHAVSRETTEN ANSVARLIGE FOR KRAV, SKADER ELLER ANDET ANSVAR, HVAD ENTEN DET ER I FORBINDELSE MED EN KONTRAKT, ERSTATNINGSRET ELLER PÅ ANDEN MÅDE, DER OPSTÅR SOM FØLGE AF, UD AF ELLER I FORBINDELSE MED SOFTWAREN ELLER BRUGEN ELLER ANDRE TRANSAKTIONER I SOFTWAREN.",
+    "notice": "Ovenstående meddelelse om ophavsret og denne meddelelse om tilladelse skal indgå i alle kopier eller væsentlige dele af Softwaren.",
+    "permission": "Der gives hermed gratis tilladelse til enhver person, der får en kopi af denne software og tilhørende dokumentationsfiler (Softwaren), til at handle i Softwaren uden begrænsning, herunder, men ikke begrænset til, retten til at bruge, kopiere, ændre, fusionere, udgive, distribuere, underlicensere og/eller sælge kopier af Softwaren, og for at tillade personer, som Softwaren leveres til, at gøre det, forudsat at følgende betingelser er opfyldt:",
+    "repo": "GitHub-arkiv",
+    "type": "MIT licens"
+  },
+  "mainpage": {
+    "artists": {
+      "body1": "Er du interesseret i at tjene penge på din kunst?",
+      "body2": "Udsted din NFT på Bitshares decentraliseret udveksling!",
+      "header": "Ringer til alle kunstnere!"
+    },
+    "benefits": {
+      "a1": "konkurrencedygtig lav",
+      "a2": "er lav",
+      "a3": "ydeevne er uovertruffen",
+      "body1": "Gebyrer på BTS DEX er ",
+      "body2": "Det miljømæssige fodaftryk ",
+      "body3": "Det",
+      "body4": " Lad være med at nøjes med mindre!",
+      "header": "Usikker på Bitshares?"
+    },
+    "featured": "Fremhævede NFT",
+    "galleries": {
+      "a1": "fuldt åben kildekode",
+      "a2": "MIT licenseret",
+      "body1": "Interesseret i at skabe dit eget galleri?",
+      "body2a": "Dette galleri er ",
+      "body2b": " og ",
+      "header": "Mulige galleri ejere"
+    },
+    "new": "Nye NFT",
+    "stat1": {
+      "header": "NFT"
+    },
+    "stat2": {
+      "header": "Udvalgte kunstnere"
+    },
+    "stat3": {
+      "header": "År siden Bitshares lanceringen",
+      "years": " år"
+    },
+    "traders": {
+      "a1": "hvordan du opretter en Bitshares konto",
+      "a2": "Desktop app",
+      "body1a": "Find ud af ",
+      "body1b": " & få handel i dag!",
+      "header": "Interesseret i handel NFT på BTS DEX?"
+    }
+  },
+  "nav": {
+    "header": "Bitshares NFT-fremviser",
+    "link1": "Hjem",
+    "link2": "Galleri",
+    "link3": "Annoncer",
+    "link4": "Søg",
+    "link5": "Om",
+    "link6": "Licens",
+    "link7": "Andre seere",
+    "staging": " (iscenesættelse)"
+  },
+  "nft": {
+    "asset": {
+      "asset_ownership_burned": "Ejerskab af aktiver er blevet „brændt“ ved at blive sendt til „null-konto“. NFT's indstillinger er nu endelige.",
+      "asset_ownership_warning": "Advarsel: Aktivejerskab er endnu ikke blevet overført til „null-konto“; de udstedte indstillinger og antal kan ændre sig efter købet.",
+      "encoding": "Fil kodning",
+      "file_type": "Filtype",
+      "issuer": "Udsteder af aktiver",
+      "name": "Aktivets navn",
+      "offchain": "Denne NFT må ikke opbevares fuldt ud i kæden.",
+      "onchain": "Denne NFT er fuldt gemt på Bitshares blockchain!",
+      "owner": "Nuværende ejer",
+      "precision": "præcision",
+      "precision_bad": "På grund af ikke at have en præcision på 0, er dette et fungible token.",
+      "precision_good": "Med en præcision på 0 er '{{short_name}}' et ikke-fungibelt token!",
+      "quantity": "Antal udstedelse"
+    },
+    "buy": {
+      "button": "Desktop-app",
+      "header": "NFT med titlen '{{title}}' ({{symbol}}) kan byttes/overføres på Bitshares decentrale udveksling",
+      "tooltip": "Søg efter UIA '{{symbol}}' i skrivebordsappen"
+    },
+    "by": " Af ",
+    "flags": {
+      "none": "Der er i øjeblikket ingen flag aktiveret."
+    },
+    "license": {
+      "header1": "Licens",
+      "header2": "Indehavers licens",
+      "none1": "Licensen, hvorunder denne NFT er blevet frigivet, er ikke blevet leveret.",
+      "none2": "Indehaverlicensoplysninger er ikke blevet givet."
+    },
+    "nft": {
+      "acknowledgments": "Anerkendelser",
+      "attestation": "Attestation",
+      "narrative": "Fortælling"
+    },
+    "permissionTips": {
+      "disabled": {
+        "charge_market_fee": "Der kan ikke opkræves nogen markedsgebyrer for dette aktiv; der kræves kun BTS-gebyrer.",
+        "committee_fed_asset": "Komiteen kan ikke give en pris for dette aktiv.",
+        "disable_confidential": "Fortrolige transaktioner af dette aktiv er permanent mulige.",
+        "disable_force_settle": "Dette aktiv kan ikke gennemtvinges udlignes.",
+        "global_settle": "Dette aktiv kan ikke afregnes globalt.",
+        "override_authority": "Udstederen af aktiverne er ikke i stand til at overføre denne NFT tilbage til sig selv.",
+        "transfer_restricted": "Dette aktivs overførsler er ubegrænset.",
+        "white_list": "Der er ingen godkendt liste over markeder for dette aktiv. Du er velkommen til at bytte det for noget på Bitshares decentrale udveksling.",
+        "witness_fed_asset": "Vidnerne kan ikke give en pris for dette aktiv."
+      },
+      "enabled": {
+        "charge_market_fee": "Udstederen af aktivet kan aktivere markedsgebyrer.",
+        "committee_fed_asset": "Dette aktiv, der er udstedt på markedet, kan få sine prisfeeds leveret af Bitshares komitemedlemmer.",
+        "disable_confidential": "Udstederen af dette aktiv kan deaktivere stealth transaktioner.",
+        "disable_force_settle": "Brugerne kan anmode om tvangsafvikling af dette markedsudstedte aktiv.",
+        "global_settle": "Udstederen af dette markedsudstedte aktiv har mulighed for globalt at afvikle aktivet",
+        "override_authority": "Udstederen af aktiverne kan overføre denne NFT tilbage til sig selv.",
+        "transfer_restricted": "Dette aktiv må kun overføres til/fra udsteder eller markedsordrer",
+        "white_list": "Udstederen af aktivet kan oprette en liste over godkendte markeder",
+        "witness_fed_asset": "Dette aktiv, der er udstedt på markedet, kan få sine prisfeeds leveret af Bitshares vidner."
+      }
+    },
+    "permissions": {
+      "none": "Alle tilladelser er blevet deaktiveret."
+    },
+    "signature": {
+      "header": "Underskrift",
+      "password": "Multihash adgangskode",
+      "signature": "Underskrift pubkey/adresse"
+    },
+    "tabs": {
+      "asset": "aktiv",
+      "buy": "Hvor kan man købe",
+      "flags": "Flag",
+      "json": "JSON-data",
+      "license": "Licens",
+      "nft": "NFT",
+      "permissions": "Tilladelser",
+      "share": "Del",
+      "signature": "Underskrift",
+      "tags": "Mærkater"
+    },
+    "tags": {
+      "no_nft_tags": "Ingen NFT-mærker",
+      "no_tags": "Ingen emne/interessekoder"
+    }
+  },
+  "search": {
+    "body": "Indtast enten navnet eller id'et for den NFT, du ønsker at finde",
+    "header": "Søg efter NFT"
+  },
+  "viewers": {
+    "blockchain": {
+      "body": "Bekræft NFT info og opdag NFT handelspriser",
+      "header": "Blockchain opdagelsesrejsende"
+    },
+    "nft": {
+      "body": "Tjek disse betroede Bitshares NFT seere!",
+      "header": "NFT-seere"
+    }
+  }
+}
