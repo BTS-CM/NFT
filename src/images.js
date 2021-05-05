@@ -23,6 +23,9 @@ function getImage(nft_object) {
   } else if (nft_object.media_json) {
     image = nft_object.media_json;
     fileType = "objt";
+  } else if (nft_object.media_gltf) {
+    image = nft_object.media_gltf;
+    fileType = "gltf";
   }
 
   return {
