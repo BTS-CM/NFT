@@ -29,9 +29,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const locales = [
-  'en',
-  'da',
-  'th'
+  {'language': 'en', 'aka': 'English'},
+  {'language': 'da', 'aka': 'Dansk'},
+  {'language': 'de', 'aka': 'Deutsche'},
+  {'language': 'es', 'aka': 'Español'},
+  {'language': 'th', 'aka': 'ไทย'},
+  {'language': 'it', 'aka': 'Italiano'},
+  {'language': 'fr', 'aka': 'Français'},
+  {'language': 'ko', 'aka': '한국어'},
+  {'language': 'pt', 'aka': 'Português'},
+  {'language': 'ja', 'aka': '日本語'},
+  {'language': 'ru', 'aka': 'русский'}
 ];
 
 const ITEM_HEIGHT = 48;
@@ -83,6 +91,7 @@ export default function Nav(properties) {
   const handleClicked = (language) => {
     setLanguage(language);
     i18n.changeLanguage(language);
+    handleClose();
   }
 
   return (
@@ -153,8 +162,8 @@ export default function Nav(properties) {
             }}
           >
             {locales.map((option) => (
-              <MenuItem key={option} selected={option === language} onClick={() => { handleClicked(option) }}>
-                {option}
+              <MenuItem key={option} selected={option === language} onClick={() => { handleClicked(option.language) }}>
+                {option.aka}
               </MenuItem>
             ))}
           </Menu>

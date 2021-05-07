@@ -1,0 +1,177 @@
+{
+  "about": {
+    "a1": "Lesen Sie mehr über Bitshares!",
+    "a2": "Bitshares NFT Spezifikation",
+    "a3": "deutlich niedriger als Wettbewerberplattformen",
+    "p1": "Bitshares war die erste DPoS-Blockchain-Technologie mit Selbstverwaltung, 3 Sekunden Verarbeitungszeit und integrierter dezentraler Finanzplattform. Kombination von Ethik, Verantwortung, Innovationen, Fairness, Wissen und 6 Jahren Erfahrung, um ein sicheres, stabiles und skalierbares Ökosystem zu verwalten. ",
+    "p2": "Non-Fungible Tokens (NFTs) können leicht von jedem in der Bitshares-Blockchain ausgegeben werden, indem Sie dem ",
+    "p3": " Fühlen Sie sich frei, diesen NFT-Viewer für Ihre eigene Bitshares-basierte NFT-Galerie zu forken.",
+    "p4": "Die Gebühren für die Bitshares Blockchain sind ",
+    "p5": "Diese Gebühren können durch den Kauf einer lebenslangen Mitgliedschaft sowie die Ausgabe von Unter-Assets wie „gallery_name.nft_name“ weiter reduziert werden"
+  },
+  "carousel": {
+    "by": " von "
+  },
+  "license": {
+    "copyright": "Urheberrecht (c) 2021 BTS Dev",
+    "disclaimer": "DIE SOFTWARE WIRD „WIE BESEHEN“ OHNE AUSDRÜCKLICHE ODER STILLSCHWEIGENDE GEWÄHRLEISTUNG JEGLICHER ART BEREITGESTELLT, EINSCHLIESSLICH, ABER NICHT BESCHRÄNKT AUF DIE GARANTIEN DER MARKTGÄNGIGKEIT, DER EIGNUNG FÜR EINEN BESTIMMTEN ZWECK UND DER NICHTVERLETZUNG. IN KEINEM FALL HAFTEN DIE AUTOREN ODER URHEBERRECHTSINHABER FÜR ANSPRÜCHE, SCHÄDEN ODER SONSTIGE HAFTUNG, SEI ES IN VERTRAGSKLAGEN, UNERLAUBTER HANDLUNG ODER ANDERWEITIG, DIE SICH AUS, AUS ODER IN VERBINDUNG MIT DER SOFTWARE ODER DER NUTZUNG ODER ANDEREN GESCHÄFTEN IN DER SOFTWARE ERGIBT.",
+    "notice": "Der oben genannte Urheberrechtsvermerk und dieser Genehmigungshinweis müssen in allen Kopien oder wesentlichen Teilen der Software enthalten sein.",
+    "permission": "Jeder Person, die eine Kopie dieser Software und zugehöriger Dokumentationsdateien (der Software) erhält, wird hiermit kostenlos die Erlaubnis erteilt, mit der Software uneingeschränkt zu handeln, einschließlich, jedoch nicht beschränkt auf die Rechte zur Verwendung, zum Kopieren, Ändern, Zusammenführen, Veröffentlichen, Verteilen, Unterlizenzieren und/oder Verkaufen von die Software, und um Personen zu gestatten, denen die Software dies zur Fall ist, unter folgenden Bedingungen:",
+    "repo": "GitHub Repository",
+    "type": "MIT Lizenz"
+  },
+  "mainpage": {
+    "artists": {
+      "body1": "Interessieren Sie sich für die Monetarisierung Ihrer Kunst?",
+      "body2": "Geben Sie Ihre NFT an der dezentralen Börse von Bitshares aus!",
+      "header": "Ruft alle Künstler an!"
+    },
+    "benefits": {
+      "a1": "wettbewerbsfähig niedrig",
+      "a2": "ist niedrig",
+      "a3": "Leistung ist konkurrenzlos",
+      "body1": "Die Gebühren für den BTS DEX betragen ",
+      "body2": "Der ökologische Fußabdruck ",
+      "body3": "Es ist ",
+      "body4": " begnügen Sie sich nicht mit weniger!",
+      "header": "Unsicher bei Bitshares?"
+    },
+    "featured": "Vorgestellte NFTs",
+    "galleries": {
+      "a1": "vollständig Open Source",
+      "a2": "MIT lizenziert",
+      "body1": "Interessiert, eine eigene Galerie zu erstellen?",
+      "body2a": "Diese Galerie ist ",
+      "body2b": " und ",
+      "header": "Zukünftige Galerie-Eigentümer"
+    },
+    "new": "Neue NFTs",
+    "stat1": {
+      "header": "Gelistete NFT"
+    },
+    "stat2": {
+      "header": "Vorgestellte Künstler"
+    },
+    "stat3": {
+      "header": "Jahre seit Bitshares-Markteinführung",
+      "years": " jahre"
+    },
+    "traders": {
+      "a1": "wie man ein Bitshares-Konto erstellt",
+      "a2": "Desktop-App",
+      "body1a": "Finde es heraus ",
+      "body1b": " & Traden Sie noch heute!",
+      "header": "Interessiert, NFT an der BTS DEX zu handeln?"
+    }
+  },
+  "nav": {
+    "header": "Bitshares NFT Betrachter",
+    "link1": "Startseite",
+    "link2": "Galerie",
+    "link3": "Auflistungen",
+    "link4": "Suchen…",
+    "link5": "Über",
+    "link6": "Lizenz",
+    "link7": "Andere Zuschauer",
+    "staging": " (Inszenierung)"
+  },
+  "nft": {
+    "asset": {
+      "asset_ownership_burned": "Der Besitz von Vermögenswerten wurde „verbrannt“, indem er an ein „null-account“ gesendet wurde. Die Einstellungen dieser NFT sind jetzt endgültig.",
+      "asset_ownership_warning": "Warnung: Der Besitz von Vermögenswerten wurde noch nicht auf „null-account“ übertragen. Die Einstellungen und die Menge können sich nach dem Kauf ändern.",
+      "encoding": "Datei-Kodierung",
+      "file_type": "Dateityp",
+      "issuer": "Asset-Emittent",
+      "name": "Asset-Name",
+      "offchain": "Diese NFT wird möglicherweise nicht vollständig in der Kette gespeichert.",
+      "onchain": "Diese NFT ist vollständig in der Bitshares Blockchain gespeichert!",
+      "owner": "Derzeitiger Eigentümer",
+      "precision": "Genauigkeit",
+      "precision_bad": "Da dies keine Genauigkeit von 0 hat, ist dies ein fungibles Token.",
+      "precision_good": "Mit einer Genauigkeit von 0 ist '{{short_name}}' ein nicht fungibles Token!",
+      "quantity": "Mengenproblem"
+    },
+    "buy": {
+      "button": "Desktop-App",
+      "header": "Die NFT mit dem Titel '{{title}}' ({{symbol}}) kann an der dezentralen Börse von Bitshares handelt/übertragen werden",
+      "tooltip": "Suchen Sie in der Desktop-App nach der UIA '{{symbol}}'"
+    },
+    "by": " von ",
+    "flags": {
+      "none": "Derzeit sind keine Flags aktiviert."
+    },
+    "license": {
+      "header1": "Lizenz",
+      "header2": "Holder-Liz",
+      "none1": "Die Lizenz, unter der diese NFT veröffentlicht wurde, wurde nicht bereitgestellt.",
+      "none2": "Informationen zur Inhaberlizenz wurden nicht bereitgestellt."
+    },
+    "nft": {
+      "acknowledgments": "Danksagungen",
+      "attestation": "Bescheinigung",
+      "narrative": "narrativ"
+    },
+    "permissionTips": {
+      "disabled": {
+        "charge_market_fee": "Für diesen Vermögenswert können keine Marktgebühren erhoben werden, es sind nur BTS-Gebühren erforderlich.",
+        "committee_fed_asset": "Der Ausschuss kann keinen Preis für diesen Vermögenswert ernähren.",
+        "disable_confidential": "Vertrauliche Transaktionen dieses Vermögenswerts sind dauerhaft möglich.",
+        "disable_force_settle": "Dieser Vermögenswert kann nicht zwangsabgewickelt werden.",
+        "global_settle": "Dieser Vermögenswert kann nicht global beglichen werden.",
+        "override_authority": "Der Asset-Emittent kann diese NFT nicht an sich selbst zurückübertragen.",
+        "transfer_restricted": "Die Übertragungen dieses Vermögenswerts sind uneingeschränkt.",
+        "white_list": "Es gibt keine genehmigte Liste von Märkten für diesen Vermögenswert. Tauschen Sie es gerne gegen alles an der dezentralen Börse von Bitshares ein.",
+        "witness_fed_asset": "Die Zeugen können keinen Preis für diesen Vermögenswert ernähren."
+      },
+      "enabled": {
+        "charge_market_fee": "Der Asset-Emittent kann Marktgebühren ermöglichen.",
+        "committee_fed_asset": "Dieser marktgegebene Vermögenswert kann seine Preisfeeds von Bitshares-Komiteemitgliedern liefern lassen.",
+        "disable_confidential": "Der Emittent dieses Vermögenswerts kann Stealth-Transaktionen deaktivieren.",
+        "disable_force_settle": "Benutzer können die Zwangsabwicklung dieses vom Markt ausgegebenen Vermögenswerts beantragen.",
+        "global_settle": "Der Emittent dieses marktgegebenen Vermögenswerts hat die Möglichkeit, den Vermögenswert global zu begleichen",
+        "override_authority": "Der Asset-Emittent kann diese NFT an sich selbst zurückübertragen.",
+        "transfer_restricted": "Dieser Vermögenswert kann nur zu/von dem Emittenten oder Marktorders übertragen werden",
+        "white_list": "Der Asset-Emittent kann eine Liste der zugelassenen Märkte erstellen",
+        "witness_fed_asset": "Dieser marktgegebene Vermögenswert kann seine Preisfeeds von Bitshares-Zeugen liefern lassen."
+      }
+    },
+    "permissions": {
+      "none": "Alle Berechtigungen wurden deaktiviert."
+    },
+    "signature": {
+      "header": "Signatur",
+      "password": "Passwort multihash",
+      "signature": "Unterschrift pubkey/Adresse"
+    },
+    "tabs": {
+      "asset": "Vermögenswert",
+      "buy": "Wo kaufen",
+      "flags": "Fahnen",
+      "json": "JSON-Daten",
+      "license": "Lizenz",
+      "nft": "NFT",
+      "permissions": "Berechtigungen",
+      "share": "Teilen",
+      "signature": "Signatur",
+      "tags": "Stichworte"
+    },
+    "tags": {
+      "no_nft_tags": "Keine NFT-Tags",
+      "no_tags": "Keine Thema/Interessen-Tags"
+    }
+  },
+  "search": {
+    "body": "Geben Sie entweder den Namen oder die ID für die NFT ein, die Sie finden möchten",
+    "header": "Suche nach NFT"
+  },
+  "viewers": {
+    "blockchain": {
+      "body": "Überprüfen Sie die NFT-Informationen und entdecken Sie die NFT-Handelsraten",
+      "header": "Blockchain-Entdecker"
+    },
+    "nft": {
+      "body": "Sieh dir diese vertrauenswürdigen Bitshares NFT Zuschauer an!",
+      "header": "NFT-Zuschauer"
+    }
+  }
+}
