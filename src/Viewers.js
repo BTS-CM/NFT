@@ -66,6 +66,9 @@ export default function Viewers(properties) {
         <a href={`https://api.testnet.bitshares.ws/docs`}>
           <Button size="small" className={classes.button} variant="contained">Insight</Button>
         </a>
+        <a href={`https://cryptofresh.com`}>
+          <Button size="small" className={classes.button} variant="contained">cryptofresh</Button>
+        </a>
       </Paper>
     </Grid>
   ]);
