@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 import React, { useState } from 'react';
 import { Apis } from "bitsharesjs-ws";
 import { useQuery } from 'react-query'

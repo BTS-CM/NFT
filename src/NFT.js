@@ -72,7 +72,6 @@ function DisplayedNFT (properties) {
   let precision = dataProps.precision;
   let symbol = dataProps.symbol;
   let options = dataProps.options;
-  let max_supply = options.max_supply;
 
   const [issuerDetails, setIssuerDetails] = useState();
   const [nftHolder, setNftHolder] = useState();
@@ -503,6 +502,20 @@ function DisplayedNFT (properties) {
               <Button className={classes.button} variant="contained">{i18n.t('nft:buy.button')}</Button>
             </a>
           </Tooltip>
+
+          <Typography variant="body1" gutterBottom style={{'paddingTop': '5px'}}>
+            Bitshares explorers
+          </Typography>
+          <a href={`https://cryptofresh.com/a/${symbol}`}>
+            <Button className={classes.button} variant="contained">cryptofresh</Button>
+          </a>
+          <a href={`https://bts.ai/asset/${symbol}`}>
+            <Button className={classes.button} variant="contained">bts.ai</Button>
+          </a>
+          <a href={`https://blocksights.info/#/assets/${symbol}`}>
+            <Button className={classes.button} variant="contained">blocksights.info</Button>
+          </a>
+
 
         </TabPanel>
 

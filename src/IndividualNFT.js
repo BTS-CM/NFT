@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query'
 import { useParams } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
 
 import {Apis} from "bitsharesjs-ws";
 
@@ -20,7 +19,7 @@ export default function IndividualNFT(properties) {
     if (data && !error) {
       setNfts(data.filter(x => x))
     }
-  }, [data]);
+  }, [data, error]);
 
   return nfts && nfts.length > 0
     ? nfts.map(nft => <NFT apis={Apis} data={nft} key={nft.id} />)

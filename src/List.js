@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import {Apis} from "bitsharesjs-ws";
 import { useQuery } from 'react-query'
-import NFT from "./NFT";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 function ListContents(properties) {
   const classes = useStyles();
   const { i18n } = useTranslation();
-  
+
   const art = properties && properties.art ? properties.art : [];
   const [nfts, setNfts] = useState([]);
   const { data, error } = useQuery('all', async () => {

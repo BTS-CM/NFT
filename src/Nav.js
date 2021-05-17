@@ -26,7 +26,6 @@ import AppBar from '@material-ui/core/AppBar';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const locales = [
   {'language': 'en', 'aka': 'English'},

@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { Apis } from "bitsharesjs-ws";
-import { useQuery } from 'react-query'
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 
@@ -8,18 +6,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-
-const { getImage, getPngDimensions } = require("./images");
-
+const { getImage } = require("./images");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +51,7 @@ export default function CarouselElement(properties) {
 
       return <div key={nft.id + "_featured_div"}>
                 <Link to={`/nft/${symbol}`}>
-                  <img src={imgURL}/>
+                  <img src={imgURL} alt={`${nft.id}_featured_div`} />
                   <Button className={classes.button} variant="contained">"{title}"{i18n.t('carousel:by')}{artist}</Button>
                 </Link>
              </div>;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useQuery } from 'react-query';
 const axios = require('axios');
 
@@ -8,7 +8,7 @@ function useQueryHook(
   functionToSet,
   queryConfig={}
 ) {
-  const { status, data, error, isFetching } = useQuery(
+  const { data, error, isFetching } = useQuery(
     queryName,
     async () => {
       let response = await axios.get(url);
@@ -21,7 +21,7 @@ function useQueryHook(
     if (data && !isFetching && !error) {
       functionToSet(data);
     }
-  }, [data, isFetching, error]);
+  }, [data, isFetching, error, functionToSet]);
 }
 
 function useIdleQueryHook(
@@ -31,7 +31,7 @@ function useIdleQueryHook(
   functionToSet,
   queryConfig={}
 ) {
-  const { isIdle, data, error, isFetching } = useQuery(
+  const { data, error, isFetching } = useQuery(
     queryName,
     async () => {
       let response = await axios.get(url);
@@ -46,7 +46,7 @@ function useIdleQueryHook(
     if (data && !isFetching && !error) {
       functionToSet(data);
     }
-  }, [data, isFetching, error]);
+  }, [data, isFetching, error, functionToSet]);
 
 }
 
