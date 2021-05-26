@@ -12,6 +12,13 @@ import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -73,9 +80,14 @@ function DisplayedNFT (properties) {
   let symbol = dataProps.symbol;
   let options = dataProps.options;
 
+  let whitelist_markets = options && options.whitelist_markets && options.whitelist_markets.length > 0
+                            ? options.whitelist_markets
+                            : undefined;
+
   const [issuerDetails, setIssuerDetails] = useState();
   const [nftHolder, setNftHolder] = useState();
   const [esDetails, setESDetails] = useState();
+  const [marketOrders, setMarketOrders] = useState();
   const [value, setValue] = useState(0);
 
   useQueryHook(
@@ -114,6 +126,69 @@ function DisplayedNFT (properties) {
   let main = description.main;
   let market = description.market;
   let short_name = description.short_name;
+
+  let approvedMarket;
+  if (market) {
+    approvedMarket = market;
+  } else if (whitelist_markets && (whitelist_markets.length > 0)) {
+    approvedMarket = whitelist_markets[0];
+  } else {
+    approvedMarket = "BTS";
+  }
+
+  useQueryHook(
+    `https://api.testnet.bitshares.ws/openexplorer/order_book?base=${id}&quote=${approvedMarket}`,
+    //`http://localhost:8082/proxy/openexplorer/order_book?base=${id}&quote=${approvedMarket}`,
+    `getApprovedOrders_${id}`,
+    setMarketOrders,
+    {refetchInterval: 60000}
+  );
+
+  let bids = marketOrders
+              ? marketOrders["bids"]
+              : undefined;
+
+  let bidRows = bids && bids.length
+                    ? bids.map((bid) => {
+                        return (
+                          <TableRow key={`tr bid ${bid.price}`}>
+                              <TableCell component="th" scope="row">
+                                {bid.price}
+                              </TableCell>
+                              <TableCell component="th" scope="row">
+                                {bid.quote}
+                              </TableCell>
+                              <TableCell>
+                                {bid.base}
+                              </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    : [];
+
+    let asks = marketOrders
+                ? marketOrders["asks"]
+                : undefined;
+
+    let askRows = asks && asks.length
+                      ? asks.map((ask) => {
+                          return (
+                            <TableRow key={`tr ask ${ask.price}`}>
+                                <TableCell component="th" scope="row">
+                                  {ask.price}
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                  {ask.quote}
+                                </TableCell>
+                                <TableCell>
+                                  {ask.base}
+                                </TableCell>
+                            </TableRow>
+                          );
+                        })
+                      : [];
+
+
 
   // Keys expected for type NFT/ART:
   let nft_object = description.nft_object;
@@ -516,7 +591,61 @@ function DisplayedNFT (properties) {
             <Button className={classes.button} variant="contained">blocksights.info</Button>
           </a>
 
+          <Typography variant="body1" gutterBottom style={{'paddingTop': '5px'}}>
+            Bids
+          </Typography>
+          {
+            !bids || !bids.length
+            ? <Chip label="No bids" disabled />
+            : <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        Price
+                      </TableCell>
+                      <TableCell>
+                        Quote
+                      </TableCell>
+                      <TableCell>
+                        Base
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {bidRows}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+          }
 
+          <Typography variant="body1" gutterBottom style={{'paddingTop': '5px'}}>
+            Asks
+          </Typography>
+          {
+            !asks || !asks.length
+            ? <Chip label="No asks" disabled />
+            : <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        Price
+                      </TableCell>
+                      <TableCell>
+                        Quote
+                      </TableCell>
+                      <TableCell>
+                        Base
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {askRows}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+          }
         </TabPanel>
 
         <TabPanel value={value} index={5} id="Flags">

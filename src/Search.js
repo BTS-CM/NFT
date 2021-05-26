@@ -101,6 +101,17 @@ function SearchPanel (properties) {
             </List>
           </div>
       </Paper>
+      <Paper className={classes.paper} style={{'padding': '20px', 'marginTop': '20px'}}>
+          <Typography gutterBottom variant="h5" component="h5">
+            Can't locate an NFT you know of?
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            Not all NFT issued on the Bitshares blockchain will be displayed on this Bitshares NFT viewer.
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            Try searching for the NFT you have in mind on <a href="/viewers">other viewers</a> & <a href="/viewers">blockchain explorers</a>!
+          </Typography>
+      </Paper>
     </Grid>
 
   );

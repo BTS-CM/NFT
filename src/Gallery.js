@@ -7,6 +7,7 @@ import NFT from "./NFT";
 function All(properties) {
   const art = properties && properties.art ? properties.art : [];
   const [nfts, setNfts] = useState([]);
+
   const { data, error } = useQuery('all', async () => {
     await Apis.instance("wss://node.testnet.bitshares.eu", true).init_promise;
     return await Apis.db.get_assets(art.map(asset => asset.name));

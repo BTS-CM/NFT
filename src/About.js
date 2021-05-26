@@ -1,6 +1,7 @@
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
+import {Helmet} from "react-helmet";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
