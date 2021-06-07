@@ -1,5 +1,5 @@
 {
-  "environment": "production",
+  "environment": "staging",
   "elastic": {
     "staging": "",
     "production": ""
