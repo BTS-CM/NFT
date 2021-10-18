@@ -2,6 +2,15 @@ function getImage(nft_object) {
   let image;
   let imgURL;
   let fileType;
+
+  if (!nft_object) {
+    return {
+      image: undefined,
+      imgURL: undefined,
+      fileType: undefined
+    }
+  }
+
   if (nft_object.media_png || nft_object.image_png) {
     image = nft_object.media_png || nft_object.image_png || undefined;
     imgURL = image

@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import ReactGA from 'react-ga4';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -11,6 +13,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import Fuse from 'fuse.js';
+
+ReactGA.initialize('G-CTZ1V9EXWY');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,6 +122,11 @@ function SearchPanel (properties) {
 }
 
 export default function Search(properties) {
+
+  useEffect(() => {
+    ReactGA.pageview('Search')
+  }, []);
+
   return (
     <SearchPanel {...properties} />
   );

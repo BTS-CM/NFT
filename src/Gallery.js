@@ -1,30 +1,23 @@
-import React, { useState } from 'react';
-import {Apis} from "bitsharesjs-ws";
-import { useQuery } from 'react-query'
-
+import React, { useEffect } from 'react';
 import NFT from "./NFT";
+
+import ReactGA from 'react-ga4';
+ReactGA.initialize('G-CTZ1V9EXWY');
 
 function All(properties) {
   const art = properties && properties.art ? properties.art : [];
-  const [nfts, setNfts] = useState([]);
 
-  const { data, error } = useQuery('all', async () => {
-    await Apis.instance("wss://node.testnet.bitshares.eu", true).init_promise;
-    return await Apis.db.get_assets(art.map(asset => asset.name));
-  });
-
-  if (!nfts || !nfts.length) {
-    if (data && !error) {
-      setNfts(data.filter(x => x))
-    }
-  }
-
-  return nfts && nfts.length > 0
-    ? nfts.map(nft => <NFT apis={Apis} data={nft} key={nft.id + "_gallery"} />)
+  return art && art.length
+    ? art.map(asset => <NFT id={asset.name} key={asset.name + "_gallery"} />)
     : [];
 }
 
 export default function Gallery(properties) {
+
+  useEffect(() => {
+    ReactGA.pageview('Gallery')
+  }, []);
+
   return (
     <All {...properties} />
   );

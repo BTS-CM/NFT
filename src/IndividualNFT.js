@@ -1,51 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery } from 'react-query'
+import React from 'react';
 import { useParams } from "react-router-dom";
-import { Helmet } from "react-helmet";
-import {Apis} from "bitsharesjs-ws";
-
+import ReactGA from 'react-ga4';
 import NFT from "./NFT";
+ReactGA.initialize('G-CTZ1V9EXWY');
 
 export default function IndividualNFT(properties) {
   let { id } = useParams();
-  const [nfts, setNfts] = useState([]);
 
-  const { data, error } = useQuery('wsNFT', async () => {
-    await Apis.instance("wss://node.testnet.bitshares.eu", true).init_promise;
-    return await Apis.db.get_assets([id]);
-  });
+  const art = properties && properties.art
+                ? properties.art.map(item => item.name)
+                : [];
 
-  useEffect(() => {
-    if (data && !error) {
-      setNfts(data.filter(x => x))
-    }
-  }, [data, error]);
+  ReactGA.pageview(`NFT ${id}`);
 
-
-
-  let options = nfts && nfts.length ? nfts[0].options : undefined;
-  let description = options ? JSON.parse(options.description) : undefined;
-  let nft_object = description ? description.nft_object : undefined;
-  let title = nft_object && nft_object.title ? nft_object.title : undefined;
-  let artist = nft_object && nft_object.artist ? nft_object.artist : undefined;
-
-  let helmet_title = title && artist
-                      ? `"${title}" (${nfts[0].symbol}) by ${artist} - Bitshares NFT`
-                      : "Loading an NFT from the Bitshares blockchain";
-
-  let helmet_description = title && artist
-                            ? `"${title}" (${nfts[0].symbol}) by ${artist} - Bitshares NFT`
-                            : "Loading an NFT from the Bitshares blockchain";
-
-  return nfts && nfts.length > 0
-    ? nfts.map(nft =>
-      [
-        <Helmet>
-          <title>{helmet_title}</title>
-          <meta name="description" content={helmet_description} />
-        </Helmet>,
-        <NFT apis={Apis} data={nft} key={nft.id} />
-      ]
-    )
-    : null;
+  return id && art.includes(id)
+    ? <NFT id={id} key={id} individual={true} />
+    : <p>Unable to load NFT</p>;
 }

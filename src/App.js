@@ -1,6 +1,6 @@
 import './App.css';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 import 'fontsource-roboto';
@@ -108,7 +108,7 @@ export default function App() {
                     </Helmet>
                     <Grid container style={{'maxWidth': '100%'}} key="individualNFT">
                       <QueryClientProvider client={queryClient}>
-                        <IndividualNFT />
+                        <IndividualNFT art={art} />
                       </QueryClientProvider>
                     </Grid>
                   </Route>
@@ -169,8 +169,8 @@ export default function App() {
 
                   <Route path="/">
                     <Helmet>
-                      <title>Bitshares NFT viewer</title>
-                      <meta name="description" content="View NFT from the Bitshares blockchain" />
+                      <title>NFTea Gallery - A Bitshares based NFT viewer</title>
+                      <meta name="description" content="View NFT from the Bitshares blockchain at the NFTea Gallery" />
                     </Helmet>
                     <Grid container style={{'maxWidth': '100%'}} key="index">
                       <QueryClientProvider client={queryClient}>

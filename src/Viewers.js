@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Grid from '@material-ui/core/Grid';
@@ -6,6 +6,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+
+import ReactGA from 'react-ga4';
+ReactGA.initialize('G-CTZ1V9EXWY');
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Viewers(properties) {
   const classes = useStyles();
   const { i18n } = useTranslation();
+
+  useEffect(() => {
+    ReactGA.pageview('Other galleries')
+  }, []);
 
   return ([
     <Grid item xs={12} key={"Viewer grid"}>

@@ -2,6 +2,10 @@ import React, {useState} from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { useTranslation } from 'react-i18next';
 
+import { Helmet } from "react-helmet";
+import { helmetJsonLdProp } from "react-schemaorg";
+import { VisualArtwork } from "schema-dts";
+
 import { Link } from "react-router-dom";
 
 import Grid from '@material-ui/core/Grid';
@@ -12,13 +16,6 @@ import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -27,7 +24,12 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import { makeStyles } from '@material-ui/core/styles';
+
 import OBJT from "./OBJT";
+import IssuerDetails from "./IssuerDetails";
+import NFTHolder from "./NFTHolder";
+import MarketOrders from "./MarketOrders";
+import IPFSCarouselElement from "./IPFSCarousel";
 
 import {
   LinkedinShareButton,
@@ -66,159 +68,101 @@ import {
 
 const { TabPanel, a11yProps } = require("./tabs");
 const { useQueryHook } = require("./reactQuery");
-
 const { getImage } = require("./images");
 
 const queryClient = new QueryClient();
 
 function DisplayedNFT (properties) {
   const { i18n } = useTranslation();
-  let dataProps = properties.data;
-  let id = dataProps.id;
-  let issuer = dataProps.issuer;
-  let precision = dataProps.precision;
-  let symbol = dataProps.symbol;
-  let options = dataProps.options;
+
+  let individual = properties.individual;
+  let id = properties.id;
+
+  if (!id || !id.includes(".")) {
+    return (<Typography gutterBottom variant="h6" component="h4">
+            Loading NFTEA info...
+          </Typography>);
+  }
+
+  const initAssetData = require(`./assets/${id}.json`);
+  const [asset, setAsset] = useState(initAssetData ? initAssetData : undefined);
+  const [value, setValue] = useState(0);
+  const [issuerDetails, setIssuerDetails] = useState();
+  const [marketOrders, setMarketOrders] = useState();
+
+  useQueryHook(
+    `https://api.bitshares.ws/lookup/asset/${id}`,
+    //`http://localhost:8082/proxy/lookup/asset/${id}`,
+    `getAsset_${id}`,
+    setAsset,
+    {}
+  );
+
+  let issuer = asset ? asset.issuer : undefined;
+  let precision = asset ? asset.precision : undefined;
+  let symbol = asset ? asset.symbol : undefined;
+  let options = asset ? asset.options : undefined;
 
   let whitelist_markets = options && options.whitelist_markets && options.whitelist_markets.length > 0
                             ? options.whitelist_markets
                             : undefined;
 
-  const [issuerDetails, setIssuerDetails] = useState();
-  const [nftHolder, setNftHolder] = useState();
-  const [esDetails, setESDetails] = useState();
-  const [marketOrders, setMarketOrders] = useState();
-  const [value, setValue] = useState(0);
-
-  useQueryHook(
-    `https://api.testnet.bitshares.ws/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
-    //`http://localhost:8082/proxy/openexplorer/asset_holders?asset_id=${id}&start=0&limit=1`,
-    `getnftholders_${id}`,
-    setNftHolder,
-    {refetchInterval: 120000}
-  );
-
-  useQueryHook(
-    `https://api.testnet.bitshares.ws/lookup/asset/${id}`,
-    //`http://localhost:8082/proxy/lookup/asset/${id}`,
-    `getAsset_${id}`,
-    setESDetails,
-    {}
-  );
-
-  useQueryHook(
-    `https://api.testnet.bitshares.ws/openexplorer/object?object=${issuer}`,
-    //`http://localhost:8082/proxy/openexplorer/object?object=${issuer}`,
-    `getissuerName_${issuer}`,
-    setIssuerDetails,
-    {}
-  );
-
-  let issuerName = issuerDetails ? issuerDetails.name : undefined;
-
-  let permissions = esDetails ? esDetails.permissions : undefined;
-  let asset_flags = esDetails ? esDetails.flags : undefined;
-  let dynamic_asset_data = esDetails ? esDetails.dynamic_asset_data : undefined;
+  let permissions = asset ? asset.permissions : undefined;
+  let asset_flags = asset ? asset.flags : undefined;
+  let dynamic_asset_data = asset ? asset.dynamic_asset_data : undefined;
   let current_supply = dynamic_asset_data ? dynamic_asset_data.current_supply : undefined;
 
   // Asset Description Langauge
-  let description = JSON.parse(options.description);
-  let main = description.main;
-  let market = description.market;
-  let short_name = description.short_name;
-
-  let approvedMarket;
-  if (market) {
-    approvedMarket = market;
-  } else if (whitelist_markets && (whitelist_markets.length > 0)) {
-    approvedMarket = whitelist_markets[0];
-  } else {
-    approvedMarket = "BTS";
-  }
-
-  useQueryHook(
-    `https://api.testnet.bitshares.ws/openexplorer/order_book?base=${id}&quote=${approvedMarket}`,
-    //`http://localhost:8082/proxy/openexplorer/order_book?base=${id}&quote=${approvedMarket}`,
-    `getApprovedOrders_${id}`,
-    setMarketOrders,
-    {refetchInterval: 60000}
-  );
-
-  let bids = marketOrders
-              ? marketOrders["bids"]
-              : undefined;
-
-  let bidRows = bids && bids.length
-                    ? bids.map((bid) => {
-                        return (
-                          <TableRow key={`tr bid ${bid.price}`}>
-                              <TableCell component="th" scope="row">
-                                {bid.price}
-                              </TableCell>
-                              <TableCell component="th" scope="row">
-                                {bid.quote}
-                              </TableCell>
-                              <TableCell>
-                                {bid.base}
-                              </TableCell>
-                          </TableRow>
-                        );
-                      })
-                    : [];
-
-    let asks = marketOrders
-                ? marketOrders["asks"]
-                : undefined;
-
-    let askRows = asks && asks.length
-                      ? asks.map((ask) => {
-                          return (
-                            <TableRow key={`tr ask ${ask.price}`}>
-                                <TableCell component="th" scope="row">
-                                  {ask.price}
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                  {ask.quote}
-                                </TableCell>
-                                <TableCell>
-                                  {ask.base}
-                                </TableCell>
-                            </TableRow>
-                          );
-                        })
-                      : [];
-
-
+  let description = options && options.description ? JSON.parse(options.description) : undefined;
+  let main = description ? description.main : undefined;
+  let market = description ? description.market : undefined;
+  let short_name = description ? description.short_name : undefined;
 
   // Keys expected for type NFT/ART:
-  let nft_object = description.nft_object;
-  let nft_signature = description.nft_signature;
+  let nft_object = description ? description.nft_object : undefined;
+  let nft_signature = description ? description.nft_signature : undefined;
 
   // NFT Object
   // Core keys:
-  let type = nft_object.type ? nft_object.type : undefined;
-  let attestation = nft_object.attestation ? nft_object.attestation : undefined;
+  let type = nft_object && nft_object.type ? nft_object.type : undefined;
+  let attestation = nft_object && nft_object.attestation ? nft_object.attestation : undefined;
   let sig_pubkey_or_address = undefined;
-  if (nft_object.sig_pubkey_or_address) {
+  if (nft_object && nft_object.sig_pubkey_or_address) {
     sig_pubkey_or_address = nft_object.sig_pubkey_or_address;
-  } else  if (nft_object.pubkeyhex) {
+  } else  if (nft_object && nft_object.pubkeyhex) {
     sig_pubkey_or_address = nft_object.pubkeyhex;
   }
 
-  let title = nft_object.title ? nft_object.title : undefined;
-  let artist = nft_object.artist ? nft_object.artist : undefined;
-  let narrative = nft_object.narrative ? nft_object.narrative : undefined;
-  let encoding = nft_object.encoding ? nft_object.encoding : undefined;
+  let title = nft_object && nft_object.title ? nft_object.title : undefined;
+  let artist = nft_object && nft_object.artist ? nft_object.artist : undefined;
+  let narrative = nft_object && nft_object.narrative ? nft_object.narrative : undefined;
+  let encoding = nft_object && nft_object.encoding ? nft_object.encoding : undefined;
 
   let { image, imgURL } = getImage(nft_object);
 
   // Optional and Proposed Keys:
-  let tags = nft_object.tags ? nft_object.tags.split(",") : undefined;
-  let nft_flags = nft_object.flags ? nft_object.flags.split(",") : undefined;
-  let acknowledgments = nft_object.acknowledgments ? nft_object.acknowledgments : undefined;
-  let license = nft_object.license ? nft_object.license : undefined;
-  let holder_license = nft_object.holder_license ? nft_object.holder_license : undefined;
-  let password_multihash = nft_object.password_multihash ? nft_object.password_multihash : undefined;
+  let tags = nft_object && nft_object.tags ? nft_object.tags.split(",") : undefined;
+  let nft_flags = nft_object && nft_object.flags ? nft_object.flags.split(",") : undefined;
+
+  let acknowledgments = nft_object && nft_object.acknowledgments ? nft_object.acknowledgments : undefined;
+  if (!acknowledgments && nft_object && nft_object.acknowledgements) {
+    acknowledgments = nft_object.acknowledgements;
+  }
+
+  let license = nft_object && nft_object.license ? nft_object.license : undefined;
+  let holder_license = nft_object && nft_object.holder_license ? nft_object.holder_license : undefined;
+  let password_multihash = nft_object && nft_object.password_multihash ? nft_object.password_multihash : undefined;
+
+  let media_png_multihashes = nft_object && nft_object.media_png_multihashes ? nft_object.media_png_multihashes : undefined;
+
+  // Helmet
+  let helmet_title = title && artist
+                      ? `"${title}" (${symbol}) by ${artist} - Bitshares NFT`
+                      : "Loading an NFT from the Bitshares blockchain";
+
+  let helmet_description = title && artist
+                            ? `"${title}" (${symbol}) by ${artist} - Bitshares NFT`
+                            : "Loading an NFT from the Bitshares blockchain";
 
   const useStyles = makeStyles((theme) => ({
     paper: {
@@ -309,21 +253,58 @@ function DisplayedNFT (properties) {
       })
     : undefined;
 
-  const shareUrl = `https://btsnft.onrender.com/${symbol}`;
+  const shareUrl = `https://www.nftea.gallery/nft/${symbol}`;
+
+  const detailsOfIssuer = issuer
+                ? <IssuerDetails issuer={issuer} issuerDetails={issuerDetails} setIssuerDetails={setIssuerDetails} />
+                : undefined;
+
+  const markets = id
+                    ? <MarketOrders marketOrders={marketOrders} setMarketOrders={setMarketOrders} id={id} market={market} whitelist_markets={whitelist_markets} />
+                    : undefined;
+
+  const holder = id
+                  ? <NFTHolder id={id} />
+                  : undefined;
 
   return (
     <Grid item xs={12} style={{'paddingBottom': '25px'}} key={symbol + "NFT"}>
+      {
+        individual && helmet_title && helmet_description
+          ? <Helmet
+              script={[
+                helmetJsonLdProp<VisualArtwork>({
+                  "@context": "https://schema.org",
+                  "@type": "VisualArtwork",
+                  artEdition: 1,
+                  artMedium: "Digital",
+                  artist: artist,
+                }),
+              ]}
+            >
+              <title>{helmet_title}</title>
+              <meta name="description" content={helmet_description} />
+            </Helmet>
+          : undefined
+      }
       <Paper className={classes.paper} id={id}>
         <Typography gutterBottom variant="h4" component="h1">
           "<Link to={`/nft/${symbol}`} className={classes.a}>{short_name}</Link>"{i18n.t('nft:by')}{artist}
         </Typography>
         {
-          imgURL
+          imgURL && !media_png_multihashes
             ? <a href={imgURL}>
                 <img src={imgURL} alt={short_name + " image"} className={classes.media} />
               </a>
             : <OBJT data={image} />
         }
+
+        {
+          asset && media_png_multihashes
+            ? <IPFSCarouselElement media_png_multihashes={media_png_multihashes} asset={asset} />
+            : undefined
+        }
+
         <Typography gutterBottom variant="h6" component="h4">
           {main}
         </Typography>
@@ -363,7 +344,7 @@ function DisplayedNFT (properties) {
 
         <TabPanel value={value} index={1} id="Asset">
           <Chip className={classes.chip} label={`${i18n.t('nft:asset.name')}: ${symbol ? symbol : '???'}`} />
-          <Chip className={classes.chip} label={`${i18n.t('nft:asset.owner')}: ${nftHolder && nftHolder.length ? nftHolder[0].name : '???'}`} />
+          {holder}
           <Chip className={classes.chip} label={`${i18n.t('nft:asset.quantity')}: ${current_supply ? current_supply : '???'}`} />
           <Chip className={classes.chip} label={`${i18n.t('nft:asset.file_type')}: ${type ? type : '???'}`} />
 
@@ -390,18 +371,7 @@ function DisplayedNFT (properties) {
           >
             <Chip className={classes.chip} label={`${i18n.t('nft:asset.precision')}: ${precision}`} />
           </Tooltip>
-
-          <Tooltip
-            TransitionComponent={Zoom}
-            disableFocusListener
-            title={
-              issuerName && issuerName === 'null-account'
-                ? i18n.t('nft:asset.asset_ownership_burned')
-                : i18n.t('nft:asset.asset_ownership_warning')
-            }
-          >
-            <Chip className={classes.chip} color={issuerName && issuerName === 'null-account' ? 'primary' : 'secondary'} label={`${i18n.t('nft:asset.issuer')}: ${issuerName}`} />
-          </Tooltip>
+          {detailsOfIssuer}
         </TabPanel>
 
         <TabPanel value={value} index={2} id="Tags">
@@ -430,7 +400,7 @@ function DisplayedNFT (properties) {
 
             <TwitterShareButton
               url={shareUrl}
-              title={title}
+              title={helmet_description}
               className={classes.share}
             >
               <TwitterIcon size={32} round />
@@ -592,60 +562,9 @@ function DisplayedNFT (properties) {
           </a>
 
           <Typography variant="body1" gutterBottom style={{'paddingTop': '5px'}}>
-            Bids
+            Market info
           </Typography>
-          {
-            !bids || !bids.length
-            ? <Chip label="No bids" disabled />
-            : <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        Price
-                      </TableCell>
-                      <TableCell>
-                        Quote
-                      </TableCell>
-                      <TableCell>
-                        Base
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {bidRows}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-          }
-
-          <Typography variant="body1" gutterBottom style={{'paddingTop': '5px'}}>
-            Asks
-          </Typography>
-          {
-            !asks || !asks.length
-            ? <Chip label="No asks" disabled />
-            : <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        Price
-                      </TableCell>
-                      <TableCell>
-                        Quote
-                      </TableCell>
-                      <TableCell>
-                        Base
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {askRows}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-          }
+          {markets}
         </TabPanel>
 
         <TabPanel value={value} index={5} id="Flags">
@@ -700,19 +619,22 @@ function DisplayedNFT (properties) {
         </TabPanel>
 
         <TabPanel value={value} index={9} id="JSON">
-          <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={esDetails ? JSON.stringify(esDetails) : 'N/A'} />
+          <TextareaAutosize aria-label={"elasticSearchData"} rowsMin={5} rowsMax={20} style={{'minWidth': '100%'}} defaultValue={asset ? JSON.stringify(asset) : 'N/A'} />
         </TabPanel>
       </Paper>
     </Grid>
   );
 }
 
+
+
 export default function NFT(properties) {
+
   return (
-    <Grid item xs={12}>
-      <QueryClientProvider client={queryClient}>
-        <DisplayedNFT {...properties} />
-      </QueryClientProvider>
-    </Grid>
-  );
+          <Grid item xs={12}>
+            <QueryClientProvider client={queryClient}>
+              <DisplayedNFT {...properties} />
+            </QueryClientProvider>
+          </Grid>
+        );
 }

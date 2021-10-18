@@ -1,7 +1,10 @@
+import { useEffect } from "react";
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
-import {Helmet} from "react-helmet";
+
+import ReactGA from 'react-ga4';
+ReactGA.initialize('G-CTZ1V9EXWY');
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -17,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
 export default function About(properties) {
   const classes = useStyles();
   const { i18n } = useTranslation();
+
+  useEffect(() => {
+    ReactGA.pageview('Search')
+  }, []);
 
   return (
     <Paper className={classes.paper}>
